@@ -1,0 +1,75 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/.943c4d01bbaf9847ddd42a480e374552adf09c35-audit.json",
+    "files": [
+        {
+            "date": 1696416973367,
+            "name": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/app-2023-10-04.log",
+            "hash": "1a46ad2c47f67d23bceddd1751af5c958f40f1ec9e254788c50b7676be9324fc"
+        },
+        {
+            "date": 1696417052593,
+            "name": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/app-2023-10-04.log.1",
+            "hash": "3ec394ee95f269a5f8699174851a29ebd3385ace64f830ce14eabf977ff08d38"
+        },
+        {
+            "date": 1696477305816,
+            "name": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/app-2023-10-05.log",
+            "hash": "3e46a124ee87a5e014f428319fd1a35294de9961c22787793281d02bdcec715b"
+        },
+        {
+            "date": 1696564860196,
+            "name": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/app-2023-10-06.log",
+            "hash": "98335515f359e77f3e5839a5141d2ed57bf83d73307cc2f47fd3bddcf7ed79f8"
+        },
+        {
+            "date": 1696661341338,
+            "name": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/app-2023-10-07.log",
+            "hash": "56283cf3748bb040c73de914cdd8867600c9b6f028149b292cd92d8b9ecafbb2"
+        },
+        {
+            "date": 1696764445828,
+            "name": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/app-2023-10-08.log",
+            "hash": "47e2a4ab8b3fef74b49a1b47b8d0d4a83866862b75cdcce6e63e81570b3c0a12"
+        },
+        {
+            "date": 1696823947944,
+            "name": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/app-2023-10-09.log",
+            "hash": "efcfe0211c5e626156ed9a075b0cbc2420e78a54f51c1439b1f8ff6e92a8c11e"
+        },
+        {
+            "date": 1696913548960,
+            "name": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/app-2023-10-10.log",
+            "hash": "a17fc3aabfdc501d13f139b1f87d94cb53cd795477df557450db02d4fe45ff67"
+        },
+        {
+            "date": 1696996170865,
+            "name": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/app-2023-10-11.log",
+            "hash": "5dc4dea4d916fe94c8caf19c1874177e8c738fe264f3752c59d9acf8ca7e46cf"
+        },
+        {
+            "date": 1697083389151,
+            "name": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/app-2023-10-12.log",
+            "hash": "13ba648b348836be3e7dd3bab419a1c298ec3cf70aebca950a8af9ca8a16f7f2"
+        },
+        {
+            "date": 1697453918160,
+            "name": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/app-2023-10-16.log",
+            "hash": "369c16e94b61b319b399fd651e101edaedd40ea97ad220b4755c2d420ba90ad9"
+        },
+        {
+            "date": 1697518206223,
+            "name": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/app-2023-10-17.log",
+            "hash": "9d7b265fe69e318fe88ce53f21bc9b09b37bdda199c50556a1d0700c7cb73516"
+        },
+        {
+            "date": 1697602618072,
+            "name": "/home/ankit/Downloads/TEMPLATE_BACKEND_NODEJS (1)/TEMPLATE_BACKEND_NODEJS/logs/app-2023-10-18.log",
+            "hash": "0027f414c424741d75c545f0ce8d395939e5407f1cd8d90ac22e1f5c468f05af"
+        }
+    ],
+    "hashType": "sha256"
+}

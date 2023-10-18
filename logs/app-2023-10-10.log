@@ -1,0 +1,285 @@
+{"level":["info"],"timestamp":"10:10:2023|10:10:34","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:61","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:48","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:48","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:64","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:64","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:18","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:14","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:19","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:41","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:46","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:26","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:53","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:60","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:37","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|10:10:26","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:47","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:76","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:82","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:18","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:97","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:27","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:68","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:39","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:44","exception":true,"message":"uncaughtException: Invalid schema configuration: `True` is not a valid type at path `status.default`. See https://bit.ly/mongoose-schematypes for a list of valid schema types."}
+{"level":["info"],"timestamp":"10:10:2023|11:10:49","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:65","exception":true,"message":"uncaughtException: Invalid schema configuration: `True` is not a valid type at path `status.default`. See https://bit.ly/mongoose-schematypes for a list of valid schema types."}
+{"level":["info"],"timestamp":"10:10:2023|11:10:67","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:50","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:76","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:46","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:54","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:16","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:28","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:86","exception":false,"message":"::1 - - [10/Oct/2023:06:06:00 +0000] \"POST /key/create HTTP/1.1\" 404 - \"-\" \"PostmanRuntime/7.33.0\"\n"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:37","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:37","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:13","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:21","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:72","exception":false,"message":"createKey is not defined"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:72","exception":false,"message":"CREATE_WEBSITE"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:43","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:20","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:15","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:27","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:85","exception":false,"message":"Cast to ObjectId failed for value \"{ lg: '6524dda626c19893b64fdaf8', value: 'submit' }\" (type Object) at path \"_id\" for model \"language\""}
+{"level":["error"],"timestamp":"10:10:2023|11:10:85","exception":false,"message":"CREATE_WEBSITE"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:88","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:99","exception":false,"message":"Cast to ObjectId failed for value \"{ lg: '6524dda626c19893b64fdaf8', value: 'submit' }\" (type Object) at path \"_id\" for model \"language\""}
+{"level":["error"],"timestamp":"10:10:2023|11:10:99","exception":false,"message":"CREATE_WEBSITE"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:100","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:58","exception":false,"message":"Cast to ObjectId failed for value \"{ lg: '6524dda626c19893b64fdaf8', value: 'submit' }\" (type Object) at path \"_id\" for model \"language\""}
+{"level":["error"],"timestamp":"10:10:2023|11:10:58","exception":false,"message":"CREATE_WEBSITE"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:46","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:43","exception":false,"message":"Cast to ObjectId failed for value \"{ lg: '6524dda626c19893b64fdaf8', value: 'submit' }\" (type Object) at path \"_id\" for model \"language\""}
+{"level":["error"],"timestamp":"10:10:2023|11:10:43","exception":false,"message":"CREATE_WEBSITE"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:11","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:26","exception":false,"message":"Cast to ObjectId failed for value \"0\" (type string) at path \"_id\" for model \"language\""}
+{"level":["error"],"timestamp":"10:10:2023|11:10:26","exception":false,"message":"CREATE_WEBSITE"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:47","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:02","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:14","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:31","exception":false,"message":"Assignment to constant variable."}
+{"level":["error"],"timestamp":"10:10:2023|11:10:31","exception":false,"message":"CREATE_WEBSITE"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:07","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:70","exception":false,"message":"Assignment to constant variable."}
+{"level":["error"],"timestamp":"10:10:2023|11:10:70","exception":false,"message":"CREATE_WEBSITE"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:17","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:96","exception":false,"message":"createKey is not defined"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:96","exception":false,"message":"CREATE_WEBSITE"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:21","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:31","exception":false,"message":"createKey is not defined"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:31","exception":false,"message":"CREATE_WEBSITE"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:12","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:53","exception":false,"message":"createKey is not defined"}
+{"level":["error"],"timestamp":"10:10:2023|11:10:53","exception":false,"message":"CREATE_WEBSITE"}
+{"level":["info"],"timestamp":"10:10:2023|11:10:51","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:81","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:95","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:13","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:19","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:00","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:43","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:38","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:89","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:04","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:69","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:21","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:77","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:07","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:43","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|12:10:52","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:24","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:09","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:89","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|13:10:76","exception":false,"message":"languageData is not defined"}
+{"level":["error"],"timestamp":"10:10:2023|13:10:76","exception":false,"message":"CREATE_WEBSITE"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:94","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:87","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:66","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|13:10:99","exception":false,"message":"ata is not defined"}
+{"level":["error"],"timestamp":"10:10:2023|13:10:99","exception":false,"message":"CREATE_WEBSITE"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:51","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:19","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:94","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:42","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:57","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:10","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:93","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:84","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:86","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:20","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:48","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:94","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:49","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:97","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|13:10:33","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:14","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:29","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:68","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:63","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:99","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:32","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:95","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:46","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:90","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:55","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:82","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:35","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:49","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:25","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:97","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:75","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:28","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|14:10:18","exception":true,"message":"uncaughtException: deleteWebsiteData is not defined"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:20","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:64","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:21","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:29","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:24","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:90","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:11","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:69","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:29","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:12","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:73","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:04","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:51","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|14:10:73","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:09","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:05","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:10","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:05","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:45","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:26","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:36","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:96","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:53","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:67","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:57","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:02","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:59","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:100","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:62","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:16","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:33","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:14","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:85","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:08","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:43","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:06","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:93","exception":false,"message":"MongoDB connected"}
+{"level":["warn"],"timestamp":"10:10:2023|15:10:63","exception":false,"message":"MongoDB Disconnecting"}
+{"level":["warn"],"timestamp":"10:10:2023|15:10:64","exception":false,"message":"MongoDB Disconnected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:29","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:87","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:54","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:71","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:58","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:43","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:70","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:02","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:59","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:81","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:45","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:93","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:60","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:10","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:69","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:58","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:70","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:11","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:54","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:71","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:26","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:59","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|15:10:42","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:27","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:29","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:65","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:11","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:24","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:42","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:89","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:09","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:60","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:11","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|16:10:58","exception":false,"message":"Cannot read properties of undefined (reading 'split')"}
+{"level":["error"],"timestamp":"10:10:2023|16:10:58","exception":false,"message":"UPDATE_KEY_DATA"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:86","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:82","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:52","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:53","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:57","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:68","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:65","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:41","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:70","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:29","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:75","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:80","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:15","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:57","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:54","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:98","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:94","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:18","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:81","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:73","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:25","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:52","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:77","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:98","exception":false,"message":"::1 - - [10/Oct/2023:11:07:22 +0000] \"POST /key/create/6525197c32ae1cc30a5f861b HTTP/1.1\" 404 - \"-\" \"PostmanRuntime/7.33.0\"\n"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:36","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:26","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:20","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:16","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:92","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:36","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:38","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:06","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:76","exception":false,"message":"::1 - - [10/Oct/2023:11:15:27 +0000] \"PUT /website/delete/6525320554726cb9ba8703d5 HTTP/1.1\" 404 - \"-\" \"PostmanRuntime/7.33.0\"\n"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:26","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:19","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:74","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:07","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|16:10:99","exception":false,"message":"Cast to Boolean failed for value \"si\" (type string) at path \"status\" for model \"website\""}
+{"level":["error"],"timestamp":"10:10:2023|16:10:99","exception":false,"message":"GET_WEBSITE_DATA"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:95","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|16:10:15","exception":false,"message":"Cast to Boolean failed for value \"i\" (type string) at path \"status\" for model \"website\""}
+{"level":["error"],"timestamp":"10:10:2023|16:10:15","exception":false,"message":"GET_WEBSITE_DATA"}
+{"level":["error"],"timestamp":"10:10:2023|16:10:40","exception":false,"message":"Cast to Boolean failed for value \"i\" (type string) at path \"status\" for model \"website\""}
+{"level":["error"],"timestamp":"10:10:2023|16:10:40","exception":false,"message":"GET_WEBSITE_DATA"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:14","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:61","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|16:10:83","exception":false,"message":"Cast to Boolean failed for value \"i\" (type string) at path \"status\" for model \"website\""}
+{"level":["error"],"timestamp":"10:10:2023|16:10:83","exception":false,"message":"GET_WEBSITE_DATA"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:66","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:65","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:40","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:32","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:39","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:43","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:62","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:15","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|16:10:66","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|17:10:96","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|17:10:79","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|17:10:53","exception":true,"message":"uncaughtException: deletePageData is not defined"}
+{"level":["info"],"timestamp":"10:10:2023|17:10:56","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|17:10:62","exception":true,"message":"uncaughtException: deletePageData is not defined"}
+{"level":["info"],"timestamp":"10:10:2023|17:10:65","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|17:10:76","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|17:10:61","exception":false,"message":"MongoDB connected"}
+{"level":["error"],"timestamp":"10:10:2023|17:10:33","exception":false,"message":"E11000 duplicate key error collection: LT.pages index: name_1 dup key: { name: \"Home_us\" }"}
+{"level":["error"],"timestamp":"10:10:2023|17:10:33","exception":false,"message":"UPDATE_PAGE_DATA"}
+{"level":["info"],"timestamp":"10:10:2023|17:10:26","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|17:10:21","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|17:10:80","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|17:10:50","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|17:10:50","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|17:10:43","exception":false,"message":"MongoDB connected"}
+{"level":["info"],"timestamp":"10:10:2023|17:10:65","exception":false,"message":"MongoDB connected"}
+{"level":["warn"],"timestamp":"10:10:2023|17:10:36","exception":false,"message":"MongoDB Disconnected"}
+{"level":["warn"],"timestamp":"10:10:2023|17:10:44","exception":false,"message":"MongoDB Connection Closed Successfully!"}
