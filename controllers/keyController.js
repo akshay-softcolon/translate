@@ -79,7 +79,7 @@ export const getAllKeyData = async (req, res) => {
         if (req.query.status) {
             options.status = req.query.status
         }
-        const languageData = await keyModel.find(options)
+        const languageData = await keyModel.find(options).populate("page_id", "name")
         if (!languageData) {
             return sendBadRequest(res, message.languageDataNotFound)
         }
