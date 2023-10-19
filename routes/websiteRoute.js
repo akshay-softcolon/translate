@@ -7,7 +7,6 @@ import { getWebSiteDataByAggregation } from '../controllers/aggregation.js'
 import mongoose from 'mongoose'
 import { tokenVerify } from '../middleware/isWebsite.js'
 const router = express.Router()
-
 // use for create website
 router.post('/create', [check('name').notEmpty().withMessage(message?.pageNameRequired)], validationfield, createWebsite)
 

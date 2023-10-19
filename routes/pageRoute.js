@@ -5,7 +5,6 @@ import { check, param } from 'express-validator'
 import message from '../utilities/messages/message.js'
 import { tokenVerify } from '../middleware/isWebsite.js'
 import mongoose from 'mongoose'
-
 const router = express.Router()
 
 // use for create page

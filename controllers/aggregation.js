@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
-import { websiteModels } from "../models/websiteModels.js";
-import logger from "../utilities/logger.js";
-import message from "../utilities/messages/message.js";
-import { sendBadRequest, sendSuccess } from "../utilities/response/index.js";
-import { pageModels } from "../models/pageModels.js";
+import mongoose from 'mongoose'
+import { websiteModels } from '../models/websiteModels.js'
+import logger from '../utilities/logger.js'
+import message from '../utilities/messages/message.js'
+import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
+import { pageModels } from '../models/pageModels.js'
 // import { log } from "winston";
 
 // export const getWebSiteDataByAggregation = async (req, res) => {
@@ -27,63 +27,63 @@ import { pageModels } from "../models/pageModels.js";
 // }
 
 export const getWebSiteDataByAggregation = async (req, res) => {
-    try {
-        const webId = req.params.websiteId
-        console.log(webId);
-        console.log(req.params);
+  try {
+    const webId = req.params.websiteId
+    console.log(webId)
+    console.log(req.params)
 
-        const webSiteData = await websiteModels.findOne({ _id: webId, status: true }).populate({
-            path: 'pages',
+    const webSiteData = await websiteModels.findOne({ _id: webId, status: true }).populate({
+      path: 'pages',
 
-            match: { status: true },
-            select: 'name',
-            populate: {
-                path: 'keys',
-                match: { status: true },
-                select: 'key language.value language.lg',
-                populate: {
-                    path: 'language.lg',
-                    match: { status: true },
-                    select: 'name key'
-                }
+      match: { status: true },
+      select: 'name',
+      populate: {
+        path: 'keys',
+        match: { status: true },
+        select: 'key language.value language.lg',
+        populate: {
+          path: 'language.lg',
+          match: { status: true },
+          select: 'name key'
+        }
+      }
+    })
+    console.log(webSiteData)
+
+    const transformedData = {}
+
+    webSiteData.pages.forEach((item) => {
+      item.keys.forEach((key) => {
+        key.language.forEach((language) => {
+          const obj = {
+            [item.name]: {
+              [key.key]: language.value
             }
+          }
+
+          if (!transformedData[language.lg.key]) {
+            transformedData[language.lg.key] = []
+          }
+
+          const existingItem = transformedData[language.lg.key].find((data) =>
+            Object.keys(data)[0] === item.name
+          )
+
+          if (existingItem) {
+            // Merge the objects if the key already exists
+            existingItem[item.name] = { ...existingItem[item.name], ...obj[item.name] }
+          } else {
+            transformedData[language.lg.key].push(obj)
+          }
         })
-        console.log(webSiteData);
+      })
+    })
 
-        const transformedData = {}
-
-        webSiteData.pages.forEach((item) => {
-            item.keys.forEach((key) => {
-                key.language.forEach((language) => {
-                    const obj = {
-                        [item.name]: {
-                            [key.key]: language.value
-                        }
-                    }
-
-                    if (!transformedData[language.lg.key]) {
-                        transformedData[language.lg.key] = []
-                    }
-
-                    const existingItem = transformedData[language.lg.key].find((data) =>
-                        Object.keys(data)[0] === item.name
-                    )
-
-                    if (existingItem) {
-                        // Merge the objects if the key already exists
-                        existingItem[item.name] = { ...existingItem[item.name], ...obj[item.name] }
-                    } else {
-                        transformedData[language.lg.key].push(obj)
-                    }
-                })
-            })
-        })
-
-        return sendSuccess(res, transformedData)
-    } catch (e) {
-        console.log(e);
-        logger.error(e)
-        logger.error('GET_WEBSITE_DATA')
-        return sendBadRequest(res, message.somethingGoneWrong)
-    }
+    return sendSuccess(res, transformedData)
+  } catch (e) {
+    console.log(e)
+    logger.error(e)
+    logger.error('GET_WEBSITE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
 }

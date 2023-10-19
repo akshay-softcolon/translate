@@ -27,12 +27,13 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^6.6.5",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.20",
+    "nodemon": "^2.0.22",
     "winston": "^3.8.2",
     "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
     "eslint": "^8.25.0",
+    "eslint-config-next": "12.2.5",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.3.0",
