@@ -17,6 +17,7 @@ export default {
   websiteDataDeletedSuccessfully: 'website data deleted successfully!',
   webSiteDataAlreadyDeleted: 'this data is already deleted!',
   websiteDataUpdatedSuccessfully: 'website data updated successfully!',
+  enterValidWebsiteId: 'enter valid website id!',
 
   // page related
   pageNameRequired: 'page name must be required!',
@@ -49,6 +50,7 @@ export default {
   languageDataUpdatedSuccessfully: 'language data updated successfully!',
   languageIdRequired: 'language id must be required!',
   languageNotExist: 'language data not exist!',
+  enterValidLanguageId: 'enter valid language id!',
 
   // key related
   keyRequired: 'key must be required!',

@@ -8,7 +8,13 @@ import mongoose from 'mongoose'
 const router = express.Router()
 
 // use for create language key
-router.post('/create/:pageid', [param('pageid').notEmpty().withMessage(message?.pageIdRequired)], validationfield, tokenVerify, createLanguageKey)
+router.post('/create/:pageId', [param('pageId').exists().withMessage(message?.pageIdRequired).custom((value) => {
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    throw new Error(message.enterValidPageId)
+  }
+  return true
+})
+], validationfield, tokenVerify, createLanguageKey)
 
 // use for get all key data
 router.get('/data', tokenVerify, getAllKeyData)
@@ -20,18 +26,28 @@ router.get('/data', tokenVerify, getAllKeyData)
 // router.get("/data/:keyid", [param('keyid').notEmpty().withMessage(message?.keyIdRequired)], validationfield, tokenVerify, getKeyDataByKeyId)
 
 // use for get key data by keyid
-router.get('/data/:pageid', [param('pageid').exists().withMessage(message?.pageIdRequired).custom((value) => {
-  // check value has valid object id
-  if (mongoose.Types.ObjectId.isValid(value) === false) {
-    throw new Error(message.invalidUserId)
+
+router.get('/data/:pageId', [param('pageId').exists().withMessage(message?.pageIdRequired).custom((value) => {
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    throw new Error(message.enterValidPageId)
   }
   return true
 })], validationfield, tokenVerify, getAllKeyDataByPageId)
 
 // use for get key data by keyid
-router.put('/update/:keyid', [param('keyid').notEmpty().withMessage(message?.keyIdRequired)], validationfield, tokenVerify, updateKeyData)
+router.put('/update/:keyId', [param('keyId').exists().withMessage(message?.keyIdRequired).custom((value) => {
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    throw new Error(message.enterValidKeyId)
+  }
+  return true
+})], validationfield, tokenVerify, updateKeyData)
 
 // use for delete key data by keyid
-router.delete('/delete/:keyid', [param('keyid').notEmpty().withMessage(message?.keyIdRequired)], validationfield, tokenVerify, deleteKeyData)
+router.delete('/delete/:keyId', [param('keyId').exists().withMessage(message?.keyIdRequired).custom((value) => {
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    throw new Error(message.enterValidKeyId)
+  }
+  return true
+})], validationfield, tokenVerify, deleteKeyData)
 
 export default router

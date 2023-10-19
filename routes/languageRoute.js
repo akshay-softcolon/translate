@@ -4,6 +4,7 @@ import { validationfield } from '../field_valodator/index.js'
 import { check, param } from 'express-validator'
 import message from '../utilities/messages/message.js'
 import { tokenVerify } from '../middleware/isWebsite.js'
+import mongoose from 'mongoose'
 const router = express.Router()
 
 // use for add language
@@ -16,9 +17,19 @@ router.get('/data', tokenVerify, getAllLanguageData)
 router.get('/name/list', tokenVerify, getLanguageNameList)
 
 // use for get language data
-router.get('/data/:languageid', [param('languageid').notEmpty().withMessage(message?.languageIdRequired)], validationfield, tokenVerify, getLanguageData)
+router.get('/data/:languageId', [param('languageId').exists().withMessage(message?.languageIdRequired).custom((value) => {
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    throw new Error(message.enterValidLanguageId)
+  }
+  return true
+})], validationfield, tokenVerify, getLanguageData)
 
 // use for delete language data
-router.put('/update/:languageid', [param('languageid').notEmpty().withMessage(message?.languageIdRequired)], validationfield, tokenVerify, updateLanguageData)
+router.put('/update/:languageId', [param('languageId').exists().withMessage(message?.languageIdRequired).custom((value) => {
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    throw new Error(message.enterValidLanguageId)
+  }
+  return true
+})], validationfield, tokenVerify, updateLanguageData)
 
 export default router

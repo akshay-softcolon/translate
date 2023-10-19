@@ -10,51 +10,30 @@ export const createWebsite = async (req, res) => {
   try {
     const data = req.body
     const websiteData = await WebsiteModels.findOne({ name: data.name })
-
-    if (websiteData) {
-      // generate accesstoken
-      const token = jwt.sign({
-        id: websiteData?._id
-      },
-      config?.ACCESS_TOKEN,
-      { expiresIn: config?.ACCESS_TOKEN_EXP * 60 }
-      )
-
-      const refreshToken = jwt.sign({
-        id: websiteData._id
-      },
-      config.REFRESH_TOKEN,
-      { expiresIn: config.REFRESH_TOKEN_EXP * 60 }
-      )
-      websiteData.token = token
-      websiteData.refresh_token = refreshToken
-      await websiteData.save()
-      return sendSuccess(res, { token: websiteData.token, refresh_token: websiteData.refresh_token }, message.dataAlreadyExist)
+    let createWebsite
+    if (!websiteData) {
+      createWebsite = await new WebsiteModels({
+        name: data.name
+      })
+      await createWebsite.save()
     }
 
-    const createWebsite = await new WebsiteModels({
-      name: data.name
-    })
-    // generate accessToken
     const token = jwt.sign({
-      id: createWebsite?._id
+      id: websiteData ? websiteData?._id : createWebsite._id
     },
     config?.ACCESS_TOKEN,
     { expiresIn: config?.ACCESS_TOKEN_EXP * 60 }
     )
 
     const refreshToken = jwt.sign({
-      id: createWebsite._id
+      id: websiteData ? websiteData?._id : createWebsite._id
     },
     config.REFRESH_TOKEN,
     { expiresIn: config.REFRESH_TOKEN_EXP * 60 }
     )
 
-    await createWebsite.save()
-    return sendSuccess(res, {
-      access_Token: token,
-      refresh_Token: refreshToken
-    }, message.websiteCreatedSuccessfully)
+    // await websiteData.save()
+    return sendSuccess(res, { token, refreshToken }, message.websiteCreatedSuccessfully)
   } catch (e) {
     logger.error(e)
     logger.error('CREATE_WEBSITE')
@@ -72,7 +51,9 @@ export const getAllWebsiteData = async (req, res) => {
     if (req.query.name) {
       option.name = { $regex: req.query.name, $options: 'i' }
     }
-    const websiteData = await WebsiteModels.find(option, { token: 0, refresh_token: 0 })
+
+    const websiteData = await WebsiteModels.find(option, { token: 0, refresh_token: 0 }).sort({ createdAt: -1 })
+
     if (!websiteData) {
       return sendBadRequest(res, message.websiteDataNotFound)
     }
@@ -87,7 +68,8 @@ export const getAllWebsiteData = async (req, res) => {
 // use for get  websitedata
 export const getWebsiteData = async (req, res) => {
   try {
-    const websiteData = await WebsiteModels.findOne({ _id: req.website._id }, { refresh_token: 0, token: 0 })
+    const websiteData = await WebsiteModels.findOne({ _id: req.website._id }, { refresh_token: 0, token: 0 }).sort({ createdAt: -1 })
+
     if (!websiteData) {
       return sendBadRequest(res, message.websiteDataNotFound)
     }
@@ -106,7 +88,9 @@ export const getWebsiteNameList = async (req, res) => {
     if (req.query.status) {
       option.status = req.query.status
     }
-    const websiteData = await WebsiteModels.find(option).select({ name: 1 })
+
+    const websiteData = await WebsiteModels.find(option).select({ name: 1 }).sort({ createdAt: -1 })
+
     if (!websiteData) {
       return sendBadRequest(res, message.websiteDataNotFound)
     }

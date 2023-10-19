@@ -7,7 +7,6 @@ import { getWebSiteDataByAggregation } from '../controllers/aggregation.js'
 import mongoose from 'mongoose'
 import { tokenVerify } from '../middleware/isWebsite.js'
 const router = express.Router()
-
 // use for create website
 router.post('/create', [check('name').notEmpty().withMessage(message?.pageNameRequired)], validationfield, createWebsite)
 
@@ -22,8 +21,8 @@ router.get('/name/list', getWebsiteNameList)
 
 // use for  get all website data by aggregation
 router.get('/all/data/:websiteId', [param('websiteId').exists().withMessage(message?.websiteIdRequired).custom((value) => {
-  if (mongoose.Types.ObjectId.isValid(value) === false) {
-    throw new Error(message.websiteIdRequired)
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    throw new Error(message.enterValidWebsiteId)
   }
   return true
 })], validationfield, getWebSiteDataByAggregation)
