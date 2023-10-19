@@ -27,4 +27,4 @@ const websiteSchema = new Schema({
 },
 { timestamps: true }
 )
-export const websiteModels = mongoose.model('websites', websiteSchema)
+export const WebsiteModels = mongoose.model('websites', websiteSchema)

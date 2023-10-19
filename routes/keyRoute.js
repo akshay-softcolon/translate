@@ -1,9 +1,10 @@
 import express from 'express'
-import { createLanguageKey, deleteKeyData, getAllKeyData, getAllKeyDataByPageId, getKeyDataByKeyId, updateKeyData } from '../controllers/keyController.js'
+import { createLanguageKey, deleteKeyData, getAllKeyData, getAllKeyDataByPageId, updateKeyData } from '../controllers/keyController.js'
 import message from '../utilities/messages/message.js'
 import { validationfield } from '../field_valodator/index.js'
 import { param } from 'express-validator'
 import { tokenVerify } from '../middleware/isWebsite.js'
+import mongoose from 'mongoose'
 const router = express.Router()
 
 // use for create language key
@@ -19,7 +20,13 @@ router.get('/data', tokenVerify, getAllKeyData)
 // router.get("/data/:keyid", [param('keyid').notEmpty().withMessage(message?.keyIdRequired)], validationfield, tokenVerify, getKeyDataByKeyId)
 
 // use for get key data by keyid
-router.get('/data/:pageid', [param('pageid').notEmpty().withMessage(message?.pageIdRequired)], validationfield, tokenVerify, getAllKeyDataByPageId)
+router.get('/data/:pageid', [param('pageid').exists().withMessage(message?.pageIdRequired).custom((value) => {
+  // check value has valid object id
+  if (mongoose.Types.ObjectId.isValid(value) === false) {
+    throw new Error(message.invalidUserId)
+  }
+  return true
+})], validationfield, tokenVerify, getAllKeyDataByPageId)
 
 // use for get key data by keyid
 router.put('/update/:keyid', [param('keyid').notEmpty().withMessage(message?.keyIdRequired)], validationfield, tokenVerify, updateKeyData)

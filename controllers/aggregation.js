@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
-import { websiteModels } from '../models/websiteModels.js'
+import { WebsiteModels } from '../models/websiteModels.js'
 import logger from '../utilities/logger.js'
 import message from '../utilities/messages/message.js'
 import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
-import { pageModels } from '../models/pageModels.js'
+import { PageModels } from '../models/pageModels.js'
 // import { log } from "winston";
 
 // export const getWebSiteDataByAggregation = async (req, res) => {
@@ -32,7 +32,7 @@ export const getWebSiteDataByAggregation = async (req, res) => {
     console.log(webId)
     console.log(req.params)
 
-    const webSiteData = await websiteModels.findOne({ _id: webId, status: true }).populate({
+    const webSiteData = await WebsiteModels.findOne({ _id: webId, status: true }).populate({
       path: 'pages',
 
       match: { status: true },

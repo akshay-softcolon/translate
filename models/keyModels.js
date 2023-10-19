@@ -28,4 +28,4 @@ const keySchema = new Schema({
 { timestamps: true }
 )
 
-export const keyModel = mongoose.model('keys', keySchema)
+export const KeyModel = mongoose.model('keys', keySchema)

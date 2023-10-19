@@ -15,4 +15,4 @@ const languageSchema = new Schema({
 },
 { timestamps: true }
 )
-export const languageModels = mongoose.model('languages', languageSchema)
+export const LanguageModels = mongoose.model('languages', languageSchema)

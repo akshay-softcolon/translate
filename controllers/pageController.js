@@ -1,6 +1,6 @@
-import { keyModel } from '../models/keyModels.js'
-import { pageModels } from '../models/pageModels.js'
-import { websiteModels } from '../models/websiteModels.js'
+import { KeyModel } from '../models/keyModels.js'
+import { PageModels } from '../models/pageModels.js'
+import { WebsiteModels } from '../models/websiteModels.js'
 import logger from '../utilities/logger.js'
 import message from '../utilities/messages/message.js'
 import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
@@ -9,11 +9,11 @@ import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
 export const createPage = async (req, res) => {
   try {
     const data = req.body
-    const websiteData = await websiteModels.findOne({ _id: req.website?._id })
+    const websiteData = await WebsiteModels.findOne({ _id: req.website?._id })
     if (!websiteData) {
       return sendBadRequest(res, message.websiteDataNotFound)
     }
-    const pageData = await pageModels.findOne({ name: data.name.toLowerCase(), website_id: websiteData._id })
+    const pageData = await PageModels.findOne({ name: data.name.toLowerCase(), website_id: websiteData._id })
     if (pageData) {
       return sendBadRequest(res, message.pageDataAlReadyExist)
     }
@@ -24,7 +24,7 @@ export const createPage = async (req, res) => {
     //     }
     // }
 
-    const addPage = await new pageModels({
+    const addPage = await new PageModels({
       name: data.name.toLowerCase(),
       website_id: websiteData._id
     })
@@ -50,7 +50,7 @@ export const getAllPageData = async (req, res) => {
     if (req.query.name) {
       option.name = { $resges: req.query.name, $option: 'i' }
     }
-    const pageData = await pageModels.find(option).populate('website_id', 'name')
+    const pageData = await PageModels.find(option).populate('website_id', 'name')
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }
@@ -71,7 +71,7 @@ export const getPageNameList = async (req, res) => {
     if (req.query.status) {
       option.status = req.query.status
     }
-    const pageData = await pageModels.find(option).select({ name: 1 })
+    const pageData = await PageModels.find(option).select({ name: 1 })
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }
@@ -86,7 +86,7 @@ export const getPageNameList = async (req, res) => {
 // use for get particular page data
 export const getPageData = async (req, res) => {
   try {
-    const pageData = await pageModels.findOne({ _id: req.params.pageid })
+    const pageData = await PageModels.findOne({ _id: req.params.pageid })
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }
@@ -102,13 +102,13 @@ export const getPageData = async (req, res) => {
 export const updatePageData = async (req, res) => {
   try {
     const data = req.body
-    const pageData = await pageModels.findOne({ _id: req.params.pageid })
+    const pageData = await PageModels.findOne({ _id: req.params.pageid })
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }
-    const websiteData = await websiteModels.findOne({ pages: { $in: pageData._id } })
+    const websiteData = await WebsiteModels.findOne({ pages: { $in: pageData._id } })
     if (data.name) {
-      const existPageData = await pageModels.findOne({ name: data.name.toLowerCase(), website_id: websiteData._id })
+      const existPageData = await PageModels.findOne({ name: data.name.toLowerCase(), website_id: websiteData._id })
       if (existPageData) {
         return sendBadRequest(res, message.pageDataAlReadyExist)
       }
@@ -117,7 +117,7 @@ export const updatePageData = async (req, res) => {
     if (Object.keys(data).includes('status')) {
       if (data.status !== pageData.status) {
         for (let i = 0; i < pageData.keys.length; i++) {
-          const keyData = await keyModel.findOne({ _id: pageData.keys[i] })
+          const keyData = await KeyModel.findOne({ _id: pageData.keys[i] })
           if (keyData) keyData.status = data.status
           keyData.save()
         }
@@ -136,11 +136,11 @@ export const updatePageData = async (req, res) => {
 // use for soft delete page data
 export const deletePageData = async (req, res) => {
   try {
-    const websiteData = await websiteModels.findOne({ _id: req.website._id })
+    const websiteData = await WebsiteModels.findOne({ _id: req.website._id })
     if (!websiteData) {
       return sendBadRequest(res, message.websiteDataNotFound)
     }
-    const pageData = await pageModels.findOne({ _id: req.params.pageid })
+    const pageData = await PageModels.findOne({ _id: req.params.pageid })
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }
