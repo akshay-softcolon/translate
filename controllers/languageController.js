@@ -82,7 +82,7 @@ export const getLanguageNameList = async (req, res) => {
 // use for get language data
 export const getLanguageData = async (req, res) => {
   try {
-    const languageData = await languageModels.findOne({ _id: req.params.languageid })
+    const languageData = await languageModels.findOne({ _id: req.params.languageId })
     if (!languageData) {
       return sendBadRequest(res, message.languageDataNotFound)
     }
@@ -98,7 +98,7 @@ export const getLanguageData = async (req, res) => {
 export const updateLanguageData = async (req, res) => {
   try {
     const data = req.body
-    const languageData = await languageModels.findOne({ _id: req.params.languageid })
+    const languageData = await languageModels.findOne({ _id: req.params.languageId })
     if (!languageData) {
       return sendBadRequest(res, message.languageDataNotFound)
     }

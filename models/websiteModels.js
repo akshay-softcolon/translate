@@ -8,12 +8,6 @@ const websiteSchema = new Schema({
     type: Boolean,
     default: true
   },
-  token: {
-    type: String
-  },
-  refresh_token: {
-    type: String
-  },
   pages: [{
     type: mongoose.Schema.ObjectId,
     ref: 'pages'
