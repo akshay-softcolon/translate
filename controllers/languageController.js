@@ -45,7 +45,7 @@ export const getAllLanguageData = async (req, res) => {
     } else {
       options.status = true
     }
-    const languageData = await languageModels.find(options)
+    const languageData = await languageModels.find(options).sort({ createdAt: -1 })
     if (!languageData) {
       return sendBadRequest(res, message.languageDataNotFound)
     }
@@ -67,7 +67,7 @@ export const getLanguageNameList = async (req, res) => {
     } else {
       options.status = true
     }
-    const languageData = await languageModels.find(options).select({ name: 1 })
+    const languageData = await languageModels.find(options).select({ name: 1 }).sort({ createdAt: -1 })
     if (!languageData) {
       return sendBadRequest(res, message.languageDataNotFound)
     }
@@ -82,7 +82,7 @@ export const getLanguageNameList = async (req, res) => {
 // use for get language data
 export const getLanguageData = async (req, res) => {
   try {
-    const languageData = await languageModels.findOne({ _id: req.params.languageId })
+    const languageData = await languageModels.findOne({ _id: req.params.languageId }).sort({ createdAt: -1 })
     if (!languageData) {
       return sendBadRequest(res, message.languageDataNotFound)
     }
