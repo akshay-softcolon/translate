@@ -61,5 +61,6 @@ export default {
   keyDataAlreadyExist: 'key data already exist!',
   keyDataDeletedSuccessfully: 'key data deleted successfully!',
   keyIdRequired: 'key id must be required!',
-  enterValidKeyId: 'enter valid key id!'
+  enterValidKeyId: 'enter valid key id!',
+  enterNameAccordingToFormate: 'Please enter a valid name in the format UPPERCASE_UPPERCASE'
 }

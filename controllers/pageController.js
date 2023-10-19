@@ -50,7 +50,7 @@ export const getAllPageData = async (req, res) => {
     if (req.query.name) {
       option.name = { $resges: req.query.name, $option: 'i' }
     }
-    const pageData = await pageModels.find(option).populate('website_id', 'name')
+    const pageData = await pageModels.find(option).populate('website_id', 'name').sort({ createdAt: -1 })
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }
@@ -71,7 +71,7 @@ export const getPageNameList = async (req, res) => {
     if (req.query.status) {
       option.status = req.query.status
     }
-    const pageData = await pageModels.find(option).select({ name: 1 })
+    const pageData = await pageModels.find(option).select({ name: 1 }).sort({ createdAt: -1 })
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }
@@ -86,7 +86,7 @@ export const getPageNameList = async (req, res) => {
 // use for get particular page data
 export const getPageData = async (req, res) => {
   try {
-    const pageData = await pageModels.findOne({ _id: req.params.pageid })
+    const pageData = await pageModels.findOne({ _id: req.params.pageId }).sort({ createdAt: -1 })
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }
@@ -102,7 +102,7 @@ export const getPageData = async (req, res) => {
 export const updatePageData = async (req, res) => {
   try {
     const data = req.body
-    const pageData = await pageModels.findOne({ _id: req.params.pageid })
+    const pageData = await pageModels.findOne({ _id: req.params.pageId })
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }
@@ -140,7 +140,7 @@ export const deletePageData = async (req, res) => {
     if (!websiteData) {
       return sendBadRequest(res, message.websiteDataNotFound)
     }
-    const pageData = await pageModels.findOne({ _id: req.params.pageid })
+    const pageData = await pageModels.findOne({ _id: req.params.pageId })
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }

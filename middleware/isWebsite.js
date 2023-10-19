@@ -31,11 +31,11 @@ export const tokenVerify = async (req, res, next) => {
     if (!websiteDetails) {
       return sendBadRequest(res, message.websiteDataNotFound)
     }
-    if (req.params.pageid) {
-      if (!websiteDetails.pages.includes(req.params.pageid)) return sendBadRequest(res, message.pageNotExist)
+    if (req.params.pageId) {
+      if (!websiteDetails.pages.includes(req.params.pageId)) return sendBadRequest(res, message.pageNotExist)
     }
-    if (req.params.languageid) {
-      if (!websiteDetails.languages.includes(req.params.languageid)) return sendBadRequest(res, message.languageNotExist)
+    if (req.params.languageId) {
+      if (!websiteDetails.languages.includes(req.params.languageId)) return sendBadRequest(res, message.languageNotExist)
     }
     // Attach Website Info
     req.website = websiteDetails

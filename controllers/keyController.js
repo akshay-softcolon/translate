@@ -9,7 +9,13 @@ import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
 export const createLanguageKey = async (req, res) => {
   try {
     const data = req.body
+    const regex = /^[A-Z]+_[A-Z]+$/
+
+    if (!regex.test(data.key)) {
+      return sendBadRequest(res, message.enterNameAccordingToFormate)
+    }
     const pageData = await pageModels.findOne({ _id: req.params.pageId })
+
     if (!pageData) return sendBadRequest(res, message.pageDataNotFound)
     if (pageData.status === false) {
       return sendBadRequest(res, message.pageIsNotLongerExist)
@@ -46,26 +52,6 @@ export const createLanguageKey = async (req, res) => {
     return sendBadRequest(res, message.somethingGoneWrong)
   }
 }
-
-// //use for get all key of particular language
-// export const getKeyData = async (req, res) => {
-//     try {
-//         const options = {}
-//         options.language = { $in: req.params.languageid }
-//         if (req.query.status) {
-//             options.status = req.query.status
-//         }
-//         const keyData = await keyModel.find(options).select({ name: 1 })
-//         if (!keyData) {
-//             return sendBadRequest(res, message.keyDataNotFound)
-//         }
-//         return sendSuccess(res, keyData, message.keyDataGetSuccessfully)
-//     } catch (e) {
-//         logger.error(e)
-//         logger.error("GET_WEBSITE_DATA")
-//         return sendBadRequest(res, message.somethingGoneWrong)
-//     }
-// }
 
 // use for get all key according to page
 export const getAllKeyData = async (req, res) => {
@@ -143,7 +129,16 @@ export const updateKeyData = async (req, res) => {
       return sendBadRequest(res, message.pageDataNotFound)
     }
 
+    if (data.key) {
+      const regex = /^[A-Z]+_[A-Z]+$/
+      if (!regex.test(data.key)) {
+        return sendBadRequest(res, message.enterNameAccordingToFormate)
+      }
+      keyData.key = data.key
+    }
+
     if (data.language) {
+      if (!data.language.length > 0) return sendBadRequest(res, message.languageDataNotFound)
       for (let i = 0; i < data.language.length; i++) {
         const languageData = await languageModels.findOne({ _id: data.language[i].lg })
         if (!languageData) {
