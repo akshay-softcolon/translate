@@ -28,10 +28,8 @@ export const createWebsite = async (req, res) => {
                 config.REFRESH_TOKEN,
                 { expiresIn: config.REFRESH_TOKEN_EXP * 60 }
             )
-            websiteData.token = token
-            websiteData.refresh_token = refreshToken
             await websiteData.save()
-            return sendSuccess(res, { token: websiteData.token, refresh_token: websiteData.refresh_token }, message.dataAlreadyExist)
+            return sendSuccess(res, { token, refreshToken }, message.dataAlreadyExist)
         }
         const createWebsite = await new websiteModels({
             name: data.name
@@ -50,10 +48,8 @@ export const createWebsite = async (req, res) => {
             config.REFRESH_TOKEN,
             { expiresIn: config.REFRESH_TOKEN_EXP * 60 }
         )
-        createWebsite.token = token
-        createWebsite.refresh_token = refreshToken
         await createWebsite.save()
-        return sendSuccess(res, createWebsite, message.websiteCreatedSuccessfully)
+        return sendSuccess(res, token,refreshToken, message.websiteCreatedSuccessfully)
     } catch (e) {
         logger.error(e)
         logger.error('CREATE_WEBSITE')

@@ -28,8 +28,7 @@ export const Login = async (req, res) => {
             { expiresIn: config.REFRESH_TOKEN_EXP * 60 }
         )
 
-        websiteData.token = token
-        websiteData.refresh_token = refreshToken
+       
         await websiteData.save()
         return sendSuccess(res, { token, refreshToken }, message.loginSuccessfully)
     } catch (e) {
