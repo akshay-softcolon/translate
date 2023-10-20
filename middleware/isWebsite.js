@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import logger from '../utilities/logger.js'
 import { sendBadRequest, sendBadRequestWith406Code } from '../utilities/response/index.js'
 import message from '../utilities/messages/message.js'
-import { websiteModels } from '../models/websiteModels.js'
+import { WebsiteModels } from '../models/websiteModels.js'
 import config from '../config/index.js'
 
 export const tokenVerify = async (req, res, next) => {
@@ -19,7 +19,7 @@ export const tokenVerify = async (req, res, next) => {
     // token and token id find next step
     if (!tokenInfo && !tokenInfo.id) return sendBadRequestWith406Code(res, message.tokenFormatInvalid)
 
-    const websiteDetails = await websiteModels.findOne(
+    const websiteDetails = await WebsiteModels.findOne(
       { _id: tokenInfo.id },
       {
         _id: 1,
@@ -27,6 +27,7 @@ export const tokenVerify = async (req, res, next) => {
         languages: 1
       }
     )
+
     // Website Does not exist
     if (!websiteDetails) {
       return sendBadRequest(res, message.websiteDataNotFound)
@@ -37,6 +38,7 @@ export const tokenVerify = async (req, res, next) => {
     if (req.params.languageId) {
       if (!websiteDetails.languages.includes(req.params.languageId)) return sendBadRequest(res, message.languageNotExist)
     }
+
     // Attach Website Info
     req.website = websiteDetails
     next()

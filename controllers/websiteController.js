@@ -1,5 +1,5 @@
 import config from '../config/index.js'
-import { websiteModels } from '../models/websiteModels.js'
+import { WebsiteModels } from '../models/websiteModels.js'
 import logger from '../utilities/logger.js'
 import message from '../utilities/messages/message.js'
 import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
@@ -9,10 +9,10 @@ import jwt from 'jsonwebtoken'
 export const createWebsite = async (req, res) => {
   try {
     const data = req.body
-    const websiteData = await websiteModels.findOne({ name: data.name })
+    const websiteData = await WebsiteModels.findOne({ name: data.name })
     let createWebsite
     if (!websiteData) {
-      createWebsite = await new websiteModels({
+      createWebsite = await new WebsiteModels({
         name: data.name
       })
       await createWebsite.save()
@@ -31,6 +31,7 @@ export const createWebsite = async (req, res) => {
     config.REFRESH_TOKEN,
     { expiresIn: config.REFRESH_TOKEN_EXP * 60 }
     )
+
     // await websiteData.save()
     return sendSuccess(res, { token, refreshToken }, message.websiteCreatedSuccessfully)
   } catch (e) {
@@ -50,7 +51,9 @@ export const getAllWebsiteData = async (req, res) => {
     if (req.query.name) {
       option.name = { $regex: req.query.name, $options: 'i' }
     }
-    const websiteData = await websiteModels.find(option, { token: 0, refresh_token: 0 }).sort({ createdAt: -1 })
+
+    const websiteData = await WebsiteModels.find(option, { token: 0, refresh_token: 0 }).sort({ createdAt: -1 })
+
     if (!websiteData) {
       return sendBadRequest(res, message.websiteDataNotFound)
     }
@@ -65,7 +68,8 @@ export const getAllWebsiteData = async (req, res) => {
 // use for get  websitedata
 export const getWebsiteData = async (req, res) => {
   try {
-    const websiteData = await websiteModels.findOne({ _id: req.website._id }, { refresh_token: 0, token: 0 }).sort({ createdAt: -1 })
+    const websiteData = await WebsiteModels.findOne({ _id: req.website._id }, { refresh_token: 0, token: 0 }).sort({ createdAt: -1 })
+
     if (!websiteData) {
       return sendBadRequest(res, message.websiteDataNotFound)
     }
@@ -84,7 +88,9 @@ export const getWebsiteNameList = async (req, res) => {
     if (req.query.status) {
       option.status = req.query.status
     }
-    const websiteData = await websiteModels.find(option).select({ name: 1 }).sort({ createdAt: -1 })
+
+    const websiteData = await WebsiteModels.find(option).select({ name: 1 }).sort({ createdAt: -1 })
+
     if (!websiteData) {
       return sendBadRequest(res, message.websiteDataNotFound)
     }
@@ -100,7 +106,7 @@ export const getWebsiteNameList = async (req, res) => {
 export const updateWebsiteData = async (req, res) => {
   try {
     const data = req.body
-    const websiteData = await websiteModels.findOne({ _id: req.website._id })
+    const websiteData = await WebsiteModels.findOne({ _id: req.website._id })
     if (!websiteData) {
       return sendBadRequest(res, message.websiteDataNotFound)
     }

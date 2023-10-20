@@ -1,6 +1,6 @@
-import { languageModels } from '../models/languageModels.js'
-import { pageModels } from '../models/pageModels.js'
-import { websiteModels } from '../models/websiteModels.js'
+import { LanguageModels } from '../models/languageModels.js'
+import { PageModels } from '../models/pageModels.js'
+import { WebsiteModels } from '../models/websiteModels.js'
 import logger from '../utilities/logger.js'
 import message from '../utilities/messages/message.js'
 import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
@@ -9,17 +9,17 @@ import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
 export const addLanguage = async (req, res) => {
   try {
     const data = req.body
-    const websiteData = await websiteModels.findOne({ _id: req.website._id })
+    const websiteData = await WebsiteModels.findOne({ _id: req.website._id })
     if (!websiteData) {
       return sendBadRequest(res, message.websiteDataNotFound)
     }
     for (let i = 0; i < websiteData.languages.length; i++) {
-      const languageData = await languageModels.findOne({ _id: websiteData.languages[i] }).select({ name: 1 })
+      const languageData = await LanguageModels.findOne({ _id: websiteData.languages[i] }).select({ name: 1 })
       if (languageData.name.toLowerCase() === data.name.toLowerCase()) {
         return sendBadRequest(res, message.languageDataAlreadyExist)
       }
     }
-    const addLanguage = await new languageModels({
+    const addLanguage = await new LanguageModels({
       name: data.name.toLowerCase(),
       key: data.key,
       wesite_id: websiteData._id
@@ -45,7 +45,9 @@ export const getAllLanguageData = async (req, res) => {
     } else {
       options.status = true
     }
-    const languageData = await languageModels.find(options).sort({ createdAt: -1 })
+
+    const languageData = await LanguageModels.find(options).sort({ createdAt: -1 })
+
     if (!languageData) {
       return sendBadRequest(res, message.languageDataNotFound)
     }
@@ -67,7 +69,9 @@ export const getLanguageNameList = async (req, res) => {
     } else {
       options.status = true
     }
-    const languageData = await languageModels.find(options).select({ name: 1 }).sort({ createdAt: -1 })
+
+    const languageData = await LanguageModels.find(options).select({ name: 1 }).sort({ createdAt: -1 })
+
     if (!languageData) {
       return sendBadRequest(res, message.languageDataNotFound)
     }
@@ -82,7 +86,8 @@ export const getLanguageNameList = async (req, res) => {
 // use for get language data
 export const getLanguageData = async (req, res) => {
   try {
-    const languageData = await languageModels.findOne({ _id: req.params.languageId }).sort({ createdAt: -1 })
+    const languageData = await LanguageModels.findOne({ _id: req.params.languageId }).sort({ createdAt: -1 })
+
     if (!languageData) {
       return sendBadRequest(res, message.languageDataNotFound)
     }
@@ -98,7 +103,9 @@ export const getLanguageData = async (req, res) => {
 export const updateLanguageData = async (req, res) => {
   try {
     const data = req.body
-    const languageData = await languageModels.findOne({ _id: req.params.languageId })
+
+    const languageData = await LanguageModels.findOne({ _id: req.params.languageId })
+
     if (!languageData) {
       return sendBadRequest(res, message.languageDataNotFound)
     }
@@ -107,7 +114,7 @@ export const updateLanguageData = async (req, res) => {
     }
     if (data.name) {
       for (let i = 0; i < req.website.languages.length; i++) {
-        const existLanguageData = await languageModels.findOne({ _id: req.website.languages[i] }).select({ name: 1 })
+        const existLanguageData = await LanguageModels.findOne({ _id: req.website.languages[i] }).select({ name: 1 })
         if (existLanguageData.name.toLowerCase() === data.name.toLowerCase()) {
           return sendBadRequest(res, message.languageDataAlreadyExist)
         }
@@ -129,7 +136,7 @@ export const updateLanguageData = async (req, res) => {
 export const deleteLanguageData = async (req, res) => {
   try {
     const data = req.body
-    const pageData = await pageModels.findOne({ _id: req.params._id })
+    const pageData = await PageModels.findOne({ _id: req.params._id })
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }

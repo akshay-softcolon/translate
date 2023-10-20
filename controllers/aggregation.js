@@ -1,4 +1,4 @@
-import { websiteModels } from '../models/websiteModels.js'
+import { WebsiteModels } from '../models/websiteModels.js'
 import logger from '../utilities/logger.js'
 import message from '../utilities/messages/message.js'
 import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
@@ -8,7 +8,7 @@ import formidable from 'formidable'
 // export const getWebSiteDataByAggregation = async (req, res) => {
 //     try {
 
-//         const webSiteData = await websiteModels.findOne({ _id: req.params.websiteid })
+//         const webSiteData = await WebsiteModels.findOne({ _id: req.params.websiteid })
 //         for (let i = 0; i < webSiteData.pages.length; i++) {
 //             const pageData = await pageModels.findOne({ _id: webSiteData.pages[i] })
 //             if (pageData.keys.length > 0) {
@@ -31,7 +31,7 @@ export const getWebSiteDataByAggregation = async (req, res) => {
     console.log(webId)
     console.log(req.params)
 
-    const webSiteData = await websiteModels.findOne({ _id: webId, status: true }).populate({
+    const webSiteData = await WebsiteModels.findOne({ _id: webId, status: true }).populate({
       path: 'pages',
 
       match: { status: true },
@@ -87,19 +87,19 @@ export const getWebSiteDataByAggregation = async (req, res) => {
   }
 }
 
-// export const formiddable = async (req, res) => {
-//   try {
-//     const form = new formidable.IncomingForm()
-//     form.parse(req)
-//     form.on('fileBegin', function (name, file) {
-//       file.path = __dirname + '/assets/' + file.name
-//     })
-//     form.on('file', function (name, file) {
-//       console.log('Upload file' + file.name)
-//     })
-//     res.sendFile(__dirname)
-//   } catch (e) {
-//     logger.error(e)
-//     return sendBadRequest(res, message.somethingGoneWrong)
-//   }
-// }
+export const formiddable = async (req, res) => {
+  try {
+    const form = new formidable.IncomingForm()
+    form.parse(req)
+    form.on('fileBegin', function (name, file) {
+      file.path = __dirname + '/assets/' + file.name
+    })
+    form.on('file', function (name, file) {
+      console.log('Upload file' + file.name)
+    })
+    res.sendFile(__dirname)
+  } catch (e) {
+    logger.error(e)
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}

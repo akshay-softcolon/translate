@@ -1,6 +1,6 @@
-import { keyModel } from '../models/keyModels.js'
-import { languageModels } from '../models/languageModels.js'
-import { pageModels } from '../models/pageModels.js'
+import { KeyModel } from '../models/KeyModels.js'
+import { LanguageModels } from '../models/languageModels.js'
+import { PageModels } from '../models/pageModels.js'
 import logger from '../utilities/logger.js'
 import message from '../utilities/messages/message.js'
 import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
@@ -14,21 +14,21 @@ export const createLanguageKey = async (req, res) => {
     if (!regex.test(data.key)) {
       return sendBadRequest(res, message.enterNameAccordingToFormate)
     }
-    const pageData = await pageModels.findOne({ _id: req.params.pageId })
+    const pageData = await PageModels.findOne({ _id: req.params.pageId })
 
     if (!pageData) return sendBadRequest(res, message.pageDataNotFound)
     if (pageData.status === false) {
       return sendBadRequest(res, message.pageIsNotLongerExist)
     }
     for (let i = 0; i < pageData.keys.length; i++) {
-      const keyData = await keyModel.findOne({ _id: pageData.keys[i] })
+      const keyData = await KeyModel.findOne({ _id: pageData.keys[i] })
       if (keyData.key.toLowerCase() === data.key.toLowerCase()) {
         return sendBadRequest(res, message.keyDataAlreadyExist)
       }
     }
     const arrayData = []
     for (let i = 0; i < data.language.length; i++) {
-      const languageData = await languageModels.findOne({ _id: data.language[i].lg })
+      const languageData = await LanguageModels.findOne({ _id: data.language[i].lg })
       if (!languageData) {
         return sendBadRequest(res, message.languageDataNotFound)
       }
@@ -36,7 +36,7 @@ export const createLanguageKey = async (req, res) => {
         arrayData.push({ lg: languageData._id, value: data.language[i].value })
       }
     }
-    const createKey = await new keyModel({
+    const createKey = await new KeyModel({
       key: data.key,
       language: arrayData,
       page_id: pageData._id
@@ -61,7 +61,9 @@ export const getAllKeyData = async (req, res) => {
     if (req.query.status) {
       options.status = req.query.status
     }
-    const languageData = await keyModel.find(options).populate('page_id', 'name').populate('language.lg', 'name').sort({ createdAt: -1 })
+
+    const languageData = await KeyModel.find(options).populate('page_id', 'name').populate('language.lg', 'name').sort({ createdAt: -1 })
+
     if (!languageData) {
       return sendBadRequest(res, message.languageDataNotFound)
     }
@@ -81,7 +83,8 @@ export const getAllKeyDataByPageId = async (req, res) => {
     if (req.query.status) {
       options.status = req.query.status
     }
-    const keyData = await keyModel.find(options).sort({ createdAt: -1 })
+
+    const keyData = await KeyModel.find(options).sort({ createdAt: -1 })
     if (!keyData) {
       return sendBadRequest(res, message.keyDataNotFound)
     }
@@ -100,7 +103,8 @@ export const getKeyDataByKeyId = async (req, res) => {
     if (req.query.status) {
       options.status = req.query.status
     }
-    const keyData = await keyModel.find({ _id: req.params.keyId }).select({ name: 1 }).sort({ createdAt: -1 })
+
+    const keyData = await KeyModel.find({ _id: req.params.keyId }).select({ name: 1 }).sort({ createdAt: -1 })
     if (!keyData) {
       return sendBadRequest(res, message.keyDataNotFound)
     }
@@ -120,7 +124,8 @@ export const getKeyDataByKeyId = async (req, res) => {
 export const updateKeyData = async (req, res) => {
   try {
     const data = req.body
-    const keyData = await keyModel.findOne({ _id: req.params.keyId })
+
+    const keyData = await KeyModel.findOne({ _id: req.params.keyId })
     if (!keyData) {
       return sendBadRequest(res, message.keyDataNotFound)
     }
@@ -140,7 +145,7 @@ export const updateKeyData = async (req, res) => {
     if (data.language) {
       if (!data.language.length > 0) return sendBadRequest(res, message.languageDataNotFound)
       for (let i = 0; i < data.language.length; i++) {
-        const languageData = await languageModels.findOne({ _id: data.language[i].lg })
+        const languageData = await LanguageModels.findOne({ _id: data.language[i].lg })
         if (!languageData) {
           return sendBadRequest(res, message.languageDataNotFound)
         }
@@ -158,14 +163,14 @@ export const updateKeyData = async (req, res) => {
     }
 
     if (data.oldpageid && data.newpageid) {
-      const oldPageData = await pageModels.findOne({ _id: data.oldpageid })
+      const oldPageData = await PageModels.findOne({ _id: data.oldpageid })
       if (!oldPageData) {
         return sendBadRequest(res, message.oldPageDataNotFound)
       }
       if (!oldPageData.keys.includes(keyData._id)) {
         return sendBadRequest(res, message.enterValidPageId)
       }
-      const newPageData = await pageModels.findOne({ _id: data.newpageid })
+      const newPageData = await PageModels.findOne({ _id: data.newpageid })
       if (!newPageData) {
         return sendBadRequest(res, message.newPageDataNotFound)
       }
@@ -187,7 +192,7 @@ export const updateKeyData = async (req, res) => {
 // use for delete key data
 export const deleteKeyData = async (req, res) => {
   try {
-    const keyData = await keyModel.findOne({ _id: req.params.keyId })
+    const keyData = await KeyModel.findOne({ _id: req.params.keyId })
     if (!keyData) {
       return sendBadRequest(res, message.keyDataNotFound)
     }
@@ -196,7 +201,7 @@ export const deleteKeyData = async (req, res) => {
       return sendBadRequest(res, message.pageDataNotFound)
     }
 
-    const pageData = await pageModels.findOne({ keys: { $in: keyData._id } })
+    const pageData = await PageModels.findOne({ keys: { $in: keyData._id } })
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }

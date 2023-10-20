@@ -1,4 +1,4 @@
-import { keyModel } from '../models/keyModels.js'
+import { KeyModel } from '../models/KeyModels.js'
 import { pageModels } from '../models/pageModels.js'
 import { websiteModels } from '../models/websiteModels.js'
 import logger from '../utilities/logger.js'
@@ -117,7 +117,7 @@ export const updatePageData = async (req, res) => {
     if (Object.keys(data).includes('status')) {
       if (data.status !== pageData.status) {
         for (let i = 0; i < pageData.keys.length; i++) {
-          const keyData = await keyModel.findOne({ _id: pageData.keys[i] })
+          const keyData = await KeyModel.findOne({ _id: pageData.keys[i] })
           if (keyData) keyData.status = data.status
           keyData.save()
         }

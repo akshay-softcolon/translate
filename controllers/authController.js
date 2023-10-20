@@ -1,4 +1,4 @@
-import { websiteModels } from '../models/websiteModels.js'
+import { WebsiteModels } from '../models/websiteModels.js'
 import logger from '../utilities/logger.js'
 import message from '../utilities/messages/message.js'
 import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
@@ -8,7 +8,7 @@ import config from '../config/index.js'
 export const Login = async (req, res) => {
   try {
     const data = req.body
-    const websiteData = await websiteModels.findOne({ name: data.name })
+    const websiteData = await WebsiteModels.findOne({ name: data.name })
     if (!websiteData) {
       return sendBadRequest(res, message.websiteDataNotFound)
     }

@@ -22,4 +22,4 @@ const pageSchema = new Schema({
 
 )
 // pageSchema.index({ name: 1 }, { unique: true })
-export const pageModels = mongoose.model('pages', pageSchema)
+export const PageModels = mongoose.model('pages', pageSchema)
