@@ -51,7 +51,7 @@ export default {
   languageIdRequired: 'language id must be required!',
   languageNotExist: 'language data not exist!',
   enterValidLanguageId: 'enter valid language id!',
-
+  languageDataAlreadyInUse: 'language data already in use!',
   // key related
   keyRequired: 'key must be required!',
   keyCreatedSuccessfully: 'key created successfully!',

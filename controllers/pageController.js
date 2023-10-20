@@ -136,10 +136,6 @@ export const updatePageData = async (req, res) => {
 // use for soft delete page data
 export const deletePageData = async (req, res) => {
   try {
-    const websiteData = await WebsiteModels.findOne({ _id: req.website._id })
-    if (!websiteData) {
-      return sendBadRequest(res, message.websiteDataNotFound)
-    }
     const pageData = await PageModels.findOne({ _id: req.params.pageId })
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
@@ -147,7 +143,8 @@ export const deletePageData = async (req, res) => {
     if (pageData.keys.length > 0) {
       return sendBadRequest(res, message.pageIsInUse)
     }
-    await websiteData.pages.pull(pageData._id)
+    await req.website.pages.pull(pageData._id)
+    await req.website.save()
     await pageData.delete()
     return sendSuccess(res, message.pageDataDeletedSuccessfully)
   } catch (e) {

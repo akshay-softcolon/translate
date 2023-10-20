@@ -32,6 +32,10 @@ export const createLanguageKey = async (req, res) => {
       if (!languageData) {
         return sendBadRequest(res, message.languageDataNotFound)
       }
+      const isLanguageData = await LanguageModels.findOne({ languages: { $in: languageData._id } })
+      if (!isLanguageData) {
+        return sendBadRequest(res, message.languageDataNotExistInTheWebsite)
+      }
       if (languageData.status === true) {
         arrayData.push({ lg: languageData._id, value: data.language[i].value })
       }
@@ -61,9 +65,7 @@ export const getAllKeyData = async (req, res) => {
     if (req.query.status) {
       options.status = req.query.status
     }
-
     const languageData = await KeyModel.find(options).populate('page_id', 'name').populate('language.lg', 'name').sort({ createdAt: -1 })
-
     if (!languageData) {
       return sendBadRequest(res, message.languageDataNotFound)
     }

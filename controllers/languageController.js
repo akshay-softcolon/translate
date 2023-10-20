@@ -135,18 +135,19 @@ export const updateLanguageData = async (req, res) => {
 // use for soft delete language data
 export const deleteLanguageData = async (req, res) => {
   try {
-    const data = req.body
-    const pageData = await PageModels.findOne({ _id: req.params._id })
-    if (!pageData) {
+    const languageData = await LanguageModels.findOne({ _id: req.params._id })
+    if (!languageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }
-    if (pageData.status === false) {
+    if (languageData.status === false) {
       return sendBadRequest(res, message.languageDataAlreadyDeleted)
     }
-    if (data.status) {
-      pageData.status = data.status
+    if (req.website.languages.length > 0) {
+      return sendBadRequest(res, message.languageDataAlreadyInUse)
     }
-    await pageData.save()
+
+    await req.website.languages.pull(languageData._id)
+    await languageData.delete()
     return sendSuccess(res, message.languageDataDeletedSuucessfully)
   } catch (e) {
     logger.error(e)
