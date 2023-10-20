@@ -87,19 +87,19 @@ export const getWebSiteDataByAggregation = async (req, res) => {
   }
 }
 
-export const formiddable = async (req, res) => {
-  try {
-    const form = new formidable.IncomingForm()
-    form.parse(req)
-    form.on('fileBegin', function (name, file) {
-      file.path = __dirname + '/assets/' + file.name
-    })
-    form.on('file', function (name, file) {
-      console.log('Upload file' + file.name)
-    })
-    res.sendFile(__dirname)
-  } catch (e) {
-    logger.error(e)
-    return sendBadRequest(res, message.somethingGoneWrong)
-  }
-}
+// export const formiddable = async (req, res) => {
+//   try {
+//     const form = new formidable.IncomingForm()
+//     form.parse(req)
+//     form.on('fileBegin', function (name, file) {
+//       file.path = __dirname + '/assets/' + file.name
+//     })
+//     form.on('file', function (name, file) {
+//       console.log('Upload file' + file.name)
+//     })
+//     res.sendFile(__dirname)
+//   } catch (e) {
+//     logger.error(e)
+//     return sendBadRequest(res, message.somethingGoneWrong)
+//   }
+// }
