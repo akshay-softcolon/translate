@@ -1,4 +1,4 @@
-import { KeyModel } from '../models/KeyModels.js'
+import { KeyModel } from '../models/keyModels.js'
 import { LanguageModels } from '../models/languageModels.js'
 import { PageModels } from '../models/pageModels.js'
 import logger from '../utilities/logger.js'
