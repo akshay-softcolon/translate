@@ -1,6 +1,7 @@
 import { KeyModel } from '../models/keyModels.js'
 import { LanguageModels } from '../models/languageModels.js'
 import { PageModels } from '../models/pageModels.js'
+import { ProjectModel } from '../models/projectModels.js'
 import logger from '../utilities/logger.js'
 import message from '../utilities/messages/message.js'
 import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
@@ -9,39 +10,49 @@ import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
 export const createLanguageKey = async (req, res) => {
   try {
     const data = req.body
-    const regex = /^[A-Z]+_[A-Z]+$/
-
-    if (!regex.test(data.key)) {
+    const regex = /^[A-Z_ ]+$/
+    if (!(regex.test(data.key))) {
       return sendBadRequest(res, message.enterNameAccordingToFormate)
     }
-    const pageData = await PageModels.findOne({ _id: req.params.pageId })
 
+    const projectData = await ProjectModel.findOne({ _id: req.params.projectId })
+
+    if (!(projectData.pages.includes(req.params.pageId))) return sendBadRequest(res, message.enterValidPageId)
+
+    const pageData = await PageModels.findOne({ _id: req.params.pageId })
     if (!pageData) return sendBadRequest(res, message.pageDataNotFound)
-    if (pageData.status === false) {
-      return sendBadRequest(res, message.pageIsNotLongerExist)
-    }
+
+    if (pageData.status === false) return sendBadRequest(res, message.pageIsNotLongerExist)
+
     for (let i = 0; i < pageData.keys.length; i++) {
       const keyData = await KeyModel.findOne({ _id: pageData.keys[i] })
-      if (keyData.key.toLowerCase() === data.key.toLowerCase()) {
+      if (!keyData) {
+        await pageData.keys.pull(pageData.keys[i])
+        return
+      }
+      if (keyData.key === data.key) {
         return sendBadRequest(res, message.keyDataAlreadyExist)
       }
     }
+
     const arrayData = []
+    if (!data.language.length > 0) return sendBadRequest(res, message.languageIdAndValueIsRequired)
     for (let i = 0; i < data.language.length; i++) {
+      if (!projectData.languages.includes(data.language[i].lg)) {
+        return sendBadRequest(res, message.enterValidLanguageId)
+      }
       const languageData = await LanguageModels.findOne({ _id: data.language[i].lg })
       if (!languageData) {
         return sendBadRequest(res, message.languageDataNotFound)
       }
-      const isLanguageData = await LanguageModels.findOne({ languages: { $in: languageData._id } })
-      if (!isLanguageData) {
-        return sendBadRequest(res, message.languageDataNotExistInTheWebsite)
-      }
+
       if (languageData.status === true) {
         arrayData.push({ lg: languageData._id, value: data.language[i].value })
       }
     }
     const createKey = await new KeyModel({
       key: data.key,
+      detail: data.detail,
       language: arrayData,
       page_id: pageData._id
     })
@@ -52,27 +63,7 @@ export const createLanguageKey = async (req, res) => {
     return sendSuccess(res, createKey, message.keyCreatedSuccessfully)
   } catch (e) {
     logger.error(e)
-    logger.error('CREATE_WEBSITE')
-    return sendBadRequest(res, message.somethingGoneWrong)
-  }
-}
-
-// use for get all key according to page
-export const getAllKeyData = async (req, res) => {
-  try {
-    const options = {}
-    options.page_id = { $in: req.website.pages }
-    if (req.query.status) {
-      options.status = req.query.status
-    }
-    const languageData = await KeyModel.find(options).populate('page_id', 'name').populate('language.lg', 'name').sort({ createdAt: -1 })
-    if (!languageData) {
-      return sendBadRequest(res, message.languageDataNotFound)
-    }
-    return sendSuccess(res, languageData, message.languageDataGetSuccessfully)
-  } catch (e) {
-    logger.error(e)
-    logger.error('GET_WEBSITE_DATA')
+    logger.error('CREATE_KEY')
     return sendBadRequest(res, message.somethingGoneWrong)
   }
 }
@@ -80,6 +71,11 @@ export const getAllKeyData = async (req, res) => {
 // use for get all key according to page particlular page id
 export const getAllKeyDataByPageId = async (req, res) => {
   try {
+    const projectData = await ProjectModel.findOne({ $or: [{ members: { $in: req.user._id } }, { admins: { $in: req.user._id } }], _id: req.params.projectId })
+    if (!projectData) return sendBadRequest(res, message.projectDataNotFound)
+
+    if (!(projectData.pages.includes(req.params.pageId))) return sendBadRequest(res, message.enterValidPageId)
+
     const options = {}
     options.page_id = req.params.pageId
     if (req.query.status) {
@@ -98,61 +94,37 @@ export const getAllKeyDataByPageId = async (req, res) => {
   }
 }
 
-// use for get all key by keyid
-export const getKeyDataByKeyId = async (req, res) => {
-  try {
-    const options = {}
-    if (req.query.status) {
-      options.status = req.query.status
-    }
-
-    const keyData = await KeyModel.find({ _id: req.params.keyId }).select({ name: 1 }).sort({ createdAt: -1 })
-    if (!keyData) {
-      return sendBadRequest(res, message.keyDataNotFound)
-    }
-    if (!req.website.pages.includes(keyData._id)) {
-      return sendBadRequest(res, message.enterValidKeyId)
-    }
-
-    return sendSuccess(res, keyData, message.keyDataGetSuccessfully)
-  } catch (e) {
-    logger.error(e)
-    logger.error('GET_WEBSITE_DATA')
-    return sendBadRequest(res, message.somethingGoneWrong)
-  }
-}
-
 // use for update key data
 export const updateKeyData = async (req, res) => {
   try {
+    const projectData = await ProjectModel.findOne({ _id: req.params.projectId })
+
+    if (!(projectData.pages.includes(req.params.pageId))) return sendBadRequest(res, message.enterValidPageId)
+
     const data = req.body
 
     const keyData = await KeyModel.findOne({ _id: req.params.keyId })
-    if (!keyData) {
-      return sendBadRequest(res, message.keyDataNotFound)
-    }
-
-    if (!req.website.pages.includes(keyData.page_id)) {
-      return sendBadRequest(res, message.pageDataNotFound)
-    }
+    if (!keyData) return sendBadRequest(res, message.keyDataNotFound)
 
     if (data.key) {
-      const regex = /^[A-Z]+_[A-Z]+$/
+      const regex = /^[A-Z_ ]+$/
       if (!regex.test(data.key)) {
         return sendBadRequest(res, message.enterNameAccordingToFormate)
       }
       keyData.key = data.key
     }
 
-    if (data.language) {
-      if (!data.language.length > 0) return sendBadRequest(res, message.languageDataNotFound)
+    if (data.language.length > 0) {
       for (let i = 0; i < data.language.length; i++) {
+        if (!projectData.languages.includes(data.language[i].lg)) {
+          return sendBadRequest(res, message.enterValidLanguageId)
+        }
         const languageData = await LanguageModels.findOne({ _id: data.language[i].lg })
         if (!languageData) {
           return sendBadRequest(res, message.languageDataNotFound)
         }
         for (let i = 0; i < keyData.language.length; i++) {
-          if (!keyData.language[i].lg.equals(languageData._id)) return sendBadRequest(res, message.languageDataNotFound)
+          if (!keyData.language[i].lg.equals(languageData._id)) return sendBadRequest(res, message.enterValidLanguageId)
         }
         if (languageData && languageData.status === true) {
           for (let k = 0; k < keyData.language.length; k++) {
@@ -176,12 +148,16 @@ export const updateKeyData = async (req, res) => {
       if (!newPageData) {
         return sendBadRequest(res, message.newPageDataNotFound)
       }
+      keyData.page_id = newPageData._id
       await oldPageData.keys.pull(keyData._id)
       await newPageData.keys.push(keyData._id)
       await oldPageData.save()
       await newPageData.save()
     }
 
+    if (data.detail) {
+      keyData.detail = data.detail
+    }
     await keyData.save()
     return sendSuccess(res, keyData, message.keyDataUpdatedSuccessfully)
   } catch (e) {
@@ -194,19 +170,16 @@ export const updateKeyData = async (req, res) => {
 // use for delete key data
 export const deleteKeyData = async (req, res) => {
   try {
-    const keyData = await KeyModel.findOne({ _id: req.params.keyId })
-    if (!keyData) {
-      return sendBadRequest(res, message.keyDataNotFound)
-    }
+    const projectData = await ProjectModel.findOne({ _id: req.params.projectId })
 
-    if (!req.website.pages.includes(keyData.page_id)) {
-      return sendBadRequest(res, message.pageDataNotFound)
-    }
+    if (!(projectData.pages.includes(req.params.pageId))) return sendBadRequest(res, message.enterValidPageId)
+
+    const keyData = await KeyModel.findOne({ _id: req.params.keyId, page_id: req.params.pageId })
+    if (!keyData) return sendBadRequest(res, message.enterValidKeyId)
 
     const pageData = await PageModels.findOne({ keys: { $in: keyData._id } })
-    if (!pageData) {
-      return sendBadRequest(res, message.pageDataNotFound)
-    }
+    if (pageData) return sendBadRequest(res, message.keyAlreadyInUse)
+
     await pageData.keys.pull(keyData._id)
     await keyData.delete()
     await pageData.save()
@@ -217,3 +190,33 @@ export const deleteKeyData = async (req, res) => {
     return sendBadRequest(res, message.somethingGoneWrong)
   }
 }
+// const url = 'wss://openfeed.5paisa.com/Feeds/api/chat?Value1=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjUwMzIyNzU5Iiwicm9sZSI6IjIwMTA5IiwiU3RhdGUiOiIiLCJSZWRpcmVjdFNlcnZlciI6IkMiLCJuYmYiOjE3MDIwMDc3NzYsImV4cCI6MTcwMjA2MDE5OSwiaWF0IjoxNzAyMDA3Nzc2fQ.gYJpcmc-RSa6wh0EqNSXnV6Z4LWkQ4XCBDnpdH9l5-g|50322759'
+// const ws = new WebSocket(`${url}`)
+
+// ws.on('error', console.error)
+
+// ws.on('open', function open () {
+//   console.log('connected')
+//   const msg = {
+//     Method: 'MarketFeedV3',
+//     Operation: 'Subscribe',
+//     ClientCode: '50322759',
+//     MarketFeedData: [{ Exch: 'N', ExchType: 'C', ScripCode: 15083 }]
+//   }
+
+//   ws.send(JSON.stringify(msg))
+//   // ws.send(Date.now())
+// })
+
+// ws.on('close', function close () {
+//   console.log('disconnected')
+// })
+
+// ws.on('message', function message (data) {
+//   console.log(data)
+//   console.log(`Round-trip time: ${Date.now() - data} ms`)
+
+//   setTimeout(function timeout () {
+//     ws.send(Date.now())
+//   }, 500)
+// })

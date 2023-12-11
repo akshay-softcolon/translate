@@ -11,6 +11,9 @@ const languageSchema = new Schema({
   },
   key: {
     type: String
+  },
+  code: {
+    type: String
   }
 },
 { timestamps: true }

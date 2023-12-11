@@ -4,9 +4,9 @@ import mongoose from 'mongoose'
 import logger from '../utilities/logger.js'
 import config from '../config/index.js'
 import { shutDown } from '../utilities/serverUtils/shutDown.js'
-import { WebsiteModels } from '../models/websiteModels.js'
 import { PageModels } from '../models/pageModels.js'
 import { KeyModel } from '../models/keyModels.js'
+import { LanguageModels } from '../models/languageModels.js'
 
 mongoose.connect(config.DATABASE.MONGO.URI, {
   useNewUrlParser: true,
@@ -54,7 +54,6 @@ db.on('error', (err) => {
 const syncAllModel = async () => { // Sync Model
   try {
     await Promise.all([
-      WebsiteModels.syncIndexes(),
       PageModels.syncIndexes(),
       KeyModel.syncIndexes(),
       LanguageModels.syncIndexes()

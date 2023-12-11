@@ -144,3 +144,20 @@ export const sendError = (res, errors, message) => {
     errors
   })
 }
+
+// keyData.forEach((key) => {
+//   key.language.forEach((languageData) => {
+//     if (arrayData[key.page_id.name]) {
+//       arrayData[key.page_id.name][key.key] = languageData.value
+//     } else {
+//       // const newObj = {
+//       //   [key.page_id.name]: {
+//       //     [key.key]: languageData.value
+//       //   }
+//       // }
+//       arrayData[key.page_id.name] = {
+//         [key.key]: languageData.value
+//       }
+//     }
+//   })
+// })

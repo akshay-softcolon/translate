@@ -1,0 +1,784 @@
+import { KeyModel } from '../models/keyModels.js'
+import { LanguageModels } from '../models/languageModels.js'
+import { ProjectModel } from '../models/projectModels.js'
+import logger from '../utilities/logger.js'
+import message from '../utilities/messages/message.js'
+import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
+
+// use for add language
+export const addLanguage = async (req, res) => {
+  try {
+    const data = req.body
+
+    for (let i = 0; i < req.website.languages.length; i++) {
+      const languageData = await LanguageModels.findOne({ _id: req.website.languages[i] }).select({ name: 1 })
+      if (!languageData) return sendBadRequest(res, message.languageDataNotFound)
+      if (languageData.name.toLowerCase() === data.name.toLowerCase()) {
+        return sendBadRequest(res, message.languageDataAlreadyExist)
+      }
+    }
+
+    const projectData = await ProjectModel.findOne({ _id: req.params.projectId })
+    if (!projectData) return sendBadRequest(res, message.projectDataNotFound)
+
+    const addLanguage = await new LanguageModels({
+      name: data.name.toLowerCase(),
+      key: data.key,
+      wesite_id: req.website._id,
+      code: data.code
+    })
+    // await req.website.languages.push(addLanguage._id)
+    await projectData.languages.push(addLanguage._id)
+    await addLanguage.save()
+    // await req.website.save()
+    await projectData.save()
+    return sendSuccess(res, addLanguage, message.languageAddedSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('ADD_LANGUAGE')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for get all language data
+export const getAllLanguageData = async (req, res) => {
+  try {
+    const options = {}
+    options._id = { $in: req.website.languages }
+    if (req.query.status) {
+      options.status = req.query.status
+    } else {
+      options.status = true
+    }
+
+    const languageData = await LanguageModels.find(options).sort({ createdAt: -1 })
+
+    if (!languageData) {
+      return sendBadRequest(res, message.languageDataNotFound)
+    }
+    return sendSuccess(res, languageData, message.languageDataGetSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('GET_ALL_LANGUAGE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for get language name data
+export const getLanguageNameList = async (req, res) => {
+  try {
+    const options = {}
+    options._id = { $in: req.website.languages }
+    if (req.query.status) {
+      options.status = req.query.status
+    } else {
+      options.status = true
+    }
+
+    const languageData = await LanguageModels.find(options).select({ name: 1 }).sort({ createdAt: -1 })
+
+    if (!languageData) {
+      return sendBadRequest(res, message.languageDataNotFound)
+    }
+    return sendSuccess(res, languageData, message.languageDataGetSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('GET_LANGUAGE_NAME_LIST')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for get language data
+export const getLanguageData = async (req, res) => {
+  try {
+    const languageData = await LanguageModels.findOne({ _id: req.params.languageId }).sort({ createdAt: -1 })
+
+    if (!languageData) {
+      return sendBadRequest(res, message.languageDataNotFound)
+    }
+    return sendSuccess(res, languageData, message.languageDataGetSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('GET_LANGUAGE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for update language data
+export const updateLanguageData = async (req, res) => {
+  try {
+    const data = req.body
+
+    const languageData = await LanguageModels.findOne({ _id: req.params.languageId })
+
+    if (!languageData) {
+      return sendBadRequest(res, message.languageDataNotFound)
+    }
+    if (languageData.status === false) {
+      return sendBadRequest(res, message.languageDataIsDepricated)
+    }
+    if (data.name) {
+      for (let i = 0; i < req.website.languages.length; i++) {
+        const existLanguageData = await LanguageModels.findOne({ _id: req.website.languages[i] }).select({ name: 1 })
+        if (!existLanguageData) return sendBadRequest(res, message.languageDataNotFound)
+        if (existLanguageData.name.toLowerCase() === data.name.toLowerCase()) {
+          return sendBadRequest(res, message.languageDataAlreadyExist)
+        }
+      }
+
+      languageData.name = data.name.toLowerCase()
+    }
+
+    await languageData.save()
+    return sendSuccess(res, message.languageDataUpdatedSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('UPDATE_LANGUAGE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for delete language data
+export const deleteLanguageData = async (req, res) => {
+  try {
+    const languageData = await LanguageModels.findOne({ _id: req.params.languageId })
+    if (!languageData) {
+      return sendBadRequest(res, message.languageDataNotFound)
+    }
+    const isLanguageData = await KeyModel.findOne({ 'language.lg': { $in: languageData._id } })
+    if (isLanguageData) {
+      return sendBadRequest(res, message.languageDataAlreadyInUse)
+    }
+
+    const projectData = await ProjectModel.findOne({ _id: req.params.projectId })
+    if (!projectData) return sendBadRequest(res, message.projectDataNotFound)
+
+    if (!(projectData.languages.includes(languageData._id))) return sendBadRequest(res, message.enterValidProjectId)
+    await projectData.languages.pull(languageData._id)
+    await req.website.languages.pull(languageData._id)
+    await languageData.delete()
+    await req.website.save()
+    await projectData.save()
+    return sendSuccess(res, message.languageDataDeletedSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('DELETE_LANGUAGE_DATA')
+  }
+}
+
+
+import { KeyModel } from '../models/keyModels.js'
+import { PageModels } from '../models/pageModels.js'
+import logger from '../utilities/logger.js'
+import message from '../utilities/messages/message.js'
+import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
+
+// use for create page
+export const createPage = async (req, res) => {
+  try {
+    const data = req.body
+    // const websiteData = await WebsiteModels.findOne({ _id: req.website?._id })
+    // if (!websiteData) {
+    //   return sendBadRequest(res, message.websiteDataNotFound)
+    // }
+    const pageData = await PageModels.findOne({ name: data.name.toLowerCase(), _id: req.user._id })
+    if (pageData) {
+      return sendBadRequest(res, message.pageDataAlReadyExist)
+    }
+
+    // for (let i = 0; i < websiteData.pages.length; i++) {
+    //     const existPageName = await PageModels.findOne({ _id: websiteData.pages[i] }).select({ name: 1 })
+    //     if (existPageName.name.toLowerCase() === data.name.toLowerCase()) {
+    //         return sendBadRequest(res, message.pageDataAlReadyExist)
+    //     }
+    // }
+
+    const addPage = await new PageModels({
+      name: data.name.toLowerCase(),
+      website_id: req.website._id
+    })
+    req.website.pages.push(addPage._id)
+    await addPage.save()
+    await req.website.save()
+    return sendSuccess(res, addPage, message.pageCreatedSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('CREATE_PAGE')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for get all page data
+export const getAllPageData = async (req, res) => {
+  try {
+    const option = {}
+    option.website_id = req.website._id
+    if (req.query.status) {
+      option.status = req.query.status
+    }
+    if (req.query.name) {
+      option.name = { $resges: req.query.name, $option: 'i' }
+    }
+    const pageData = await PageModels.find(option).populate('website_id', 'name').sort({ createdAt: -1 })
+    if (!pageData) {
+      return sendBadRequest(res, message.pageDataNotFound)
+    }
+    return sendSuccess(res, pageData, message.pageDataGetSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('GET_ALL_PAGE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for get page name list
+export const getPageNameList = async (req, res) => {
+  try {
+    const option = {}
+    option.status = true
+    option.website_id = req.website._id
+    if (req.query.status) {
+      option.status = req.query.status
+    }
+    const pageData = await PageModels.find(option).select({ name: 1 }).sort({ createdAt: -1 })
+    if (!pageData) {
+      return sendBadRequest(res, message.pageDataNotFound)
+    }
+    return sendSuccess(res, pageData, message.pageDataGetSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('GET_PAGE_NAME_LIST')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for get particular page data
+export const getPageData = async (req, res) => {
+  try {
+    const pageData = await PageModels.findOne({ _id: req.params.pageId }).sort({ createdAt: -1 })
+    if (!pageData) {
+      return sendBadRequest(res, message.pageDataNotFound)
+    }
+    return sendSuccess(res, pageData, message.pageDataGetSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('GET_PAGE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for update page data
+export const updatePageData = async (req, res) => {
+  try {
+    const data = req.body
+    const pageData = await PageModels.findOne({ _id: req.params.pageId })
+    if (!pageData) {
+      return sendBadRequest(res, message.pageDataNotFound)
+    }
+    // const websiteData = await WebsiteModels.findOne({ pages: { $in: pageData._id } })
+    if (data.name) {
+      const existPageData = await PageModels.findOne({ name: data.name.toLowerCase(), website_id: req.website._id })
+      if (existPageData) {
+        return sendBadRequest(res, message.pageDataAlReadyExist)
+      }
+      pageData.name = data.name.toLowerCase()
+    }
+    if (Object.keys(data).includes('status')) {
+      if (data.status !== pageData.status) {
+        for (let i = 0; i < pageData.keys.length; i++) {
+          const keyData = await KeyModel.findOne({ _id: pageData.keys[i] })
+          if (keyData) keyData.status = data.status
+          keyData.save()
+        }
+      }
+      pageData.status = data.status
+    }
+    await pageData.save()
+    return sendSuccess(res, pageData, message.pageDataUpdatedSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('UPDATE_PAGE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for soft delete page data
+export const deletePageData = async (req, res) => {
+  try {
+    const pageData = await PageModels.findOne({ _id: req.params.pageId })
+    if (!pageData) {
+      return sendBadRequest(res, message.pageDataNotFound)
+    }
+    if (pageData.keys.length > 0) {
+      return sendBadRequest(res, message.pageIsInUse)
+    }
+    await req.website.pages.pull(pageData._id)
+    await req.website.save()
+    await pageData.delete()
+    return sendSuccess(res, message.pageDataDeletedSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('DELETE_PAGE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+import { KeyModel } from '../models/keyModels.js'
+import { LanguageModels } from '../models/languageModels.js'
+import { PageModels } from '../models/pageModels.js'
+import { ProjectModel } from '../models/projectModels.js'
+import logger from '../utilities/logger.js'
+import message from '../utilities/messages/message.js'
+import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
+
+// use for create language key
+export const createLanguageKey = async (req, res) => {
+  try {
+    const data = req.body
+    const regex = /^[A-Z_ ]+$/
+    if (!regex.test(data.key)) {
+      return sendBadRequest(res, message.enterNameAccordingToFormate)
+    }
+
+    const projectData = await ProjectModel.findOne({ _id: req.params.projectId })
+    if (!projectData) return sendBadRequest(res, message.projectDataNotFound)
+
+    // 'pages.key': {
+    //   $elemMatch: { name: searchName, value: searchValue }
+    // }
+    const pageData = await PageModels.findOne({ _id: req.params.pageId })
+    if (!pageData) return sendBadRequest(res, message.pageDataNotFound)
+
+    if (!(projectData.pages.includes(req.params.pageId))) return sendBadRequest(res, message.enterValidPageId)
+    // if (pageData.status === false) return sendBadRequest(res, message.pageIsNotLongerExist)
+
+    for (const i of projectData.pages) {
+      for (const j of i.key) {
+        const projectData = await ProjectModel.findOne({ _id: j }).populate('')
+      }
+    }
+    for (let i = 0; i < pageData.keys.length; i++) {
+      const keyData = await KeyModel.findOne({ _id: pageData.keys[i] })
+      if (!keyData) {
+        await pageData.keys.pull(pageData.keys[i])
+        return
+      }
+      if (keyData.key === data.key) {
+        return sendBadRequest(res, message.keyDataAlreadyExist)
+      }
+    }
+    const arrayData = []
+    if (!data.language.length > 0) return sendBadRequest(res, message.languageIdAndValueIsRequired)
+    for (let i = 0; i < data.language.length; i++) {
+      if (!req.website.languages.includes(data.language[i].lg)) {
+        return sendBadRequest(res, message.enterValidLanguageId)
+      }
+      const languageData = await LanguageModels.findOne({ _id: data.language[i].lg })
+      if (!languageData) {
+        return sendBadRequest(res, message.languageDataNotFound)
+      }
+
+      if (languageData.status === true) {
+        arrayData.push({ lg: languageData._id, value: data.language[i].value })
+      }
+    }
+    const createKey = await new KeyModel({
+      key: data.key,
+      language: arrayData,
+      page_id: pageData._id
+    })
+    // pageData.keys.push(createKey._id)
+
+    // await createKey.save()
+    // await pageData.save()
+    return sendSuccess(res, createKey, message.keyCreatedSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('CREATE_KEY')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for get all key according to page
+export const getAllKeyData = async (req, res) => {
+  try {
+    const options = {}
+    options.page_id = { $in: req.website.pages }
+    if (req.query.status) {
+      options.status = req.query.status
+    }
+    const languageData = await KeyModel.distinct('key')
+    if (!languageData) {
+      return sendBadRequest(res, message.languageDataNotFound)
+    }
+    return sendSuccess(res, languageData, message.languageDataGetSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('GET_WEBSITE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for get all key according to page particlular page id
+export const getAllKeyDataByPageId = async (req, res) => {
+  try {
+    const options = {}
+    options.page_id = req.params.pageId
+    if (req.query.status) {
+      options.status = req.query.status
+    }
+
+    const keyData = await KeyModel.find(options).sort({ createdAt: -1 })
+    if (!keyData) {
+      return sendBadRequest(res, message.keyDataNotFound)
+    }
+    return sendSuccess(res, keyData, message.keyDataGetSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('GET_WEBSITE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for get key by keyid
+export const getKeyDataByKeyId = async (req, res) => {
+  try {
+    const keyData = await KeyModel.findOne({ _id: req.params.keyId })
+    if (!keyData) {
+      return sendBadRequest(res, message.keyDataNotFound)
+    }
+    if (!req.website.pages.includes(keyData.page_id)) {
+      return sendBadRequest(res, message.enterValidKeyId)
+    }
+
+    return sendSuccess(res, keyData, message.keyDataGetSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('GET_WEBSITE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for update key data
+export const updateKeyData = async (req, res) => {
+  try {
+    const data = req.body
+    const keyData = await KeyModel.findOne({ _id: req.params.keyId })
+    if (!keyData) {
+      return sendBadRequest(res, message.keyDataNotFound)
+    }
+
+    if (!req.website.pages.includes(keyData.page_id)) {
+      return sendBadRequest(res, message.pageDataNotFound)
+    }
+
+    if (data.key) {
+      const regex = /^[A-Z_ ]+$/
+      if (!regex.test(data.key)) {
+        return sendBadRequest(res, message.enterNameAccordingToFormate)
+      }
+      keyData.key = data.key
+    }
+
+    if (data.language) {
+      if (!data.language.length > 0) return sendBadRequest(res, message.languageDataNotFound)
+      for (let i = 0; i < data.language.length; i++) {
+        if (!req.website.languages.includes(data.language[i].lg)) {
+          return sendBadRequest(res, message.enterValidLanguageId)
+        }
+        const languageData = await LanguageModels.findOne({ _id: data.language[i].lg })
+        if (!languageData) {
+          return sendBadRequest(res, message.languageDataNotFound)
+        }
+        for (let i = 0; i < keyData.language.length; i++) {
+          if (!keyData.language[i].lg.equals(languageData._id)) return sendBadRequest(res, message.languageDataNotFound)
+        }
+        if (languageData && languageData.status === true) {
+          for (let k = 0; k < keyData.language.length; k++) {
+            if (languageData._id.equals(keyData.language[k].lg)) {
+              keyData.language[k].value = data.language[i].value
+            }
+          }
+        }
+      }
+    }
+
+    if (data.oldpageid && data.newpageid) {
+      const oldPageData = await PageModels.findOne({ _id: data.oldpageid })
+      if (!oldPageData) {
+        return sendBadRequest(res, message.oldPageDataNotFound)
+      }
+      if (!oldPageData.keys.includes(keyData._id)) {
+        return sendBadRequest(res, message.enterValidPageId)
+      }
+      const newPageData = await PageModels.findOne({ _id: data.newpageid })
+      if (!newPageData) {
+        return sendBadRequest(res, message.newPageDataNotFound)
+      }
+      keyData.page_id = newPageData._id
+      await oldPageData.keys.pull(keyData._id)
+      await newPageData.keys.push(keyData._id)
+      await oldPageData.save()
+      await newPageData.save()
+    }
+
+    await keyData.save()
+    return sendSuccess(res, keyData, message.keyDataUpdatedSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('UPDATE_KEY_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for delete key data
+export const deleteKeyData = async (req, res) => {
+  try {
+    const keyData = await KeyModel.findOne({ _id: req.params.keyId })
+    if (!keyData) {
+      return sendBadRequest(res, message.keyDataNotFound)
+    }
+
+    if (!req.website.pages.includes(keyData.page_id)) {
+      return sendBadRequest(res, message.pageDataNotFound)
+    }
+
+    const pageData = await PageModels.findOne({ keys: { $in: keyData._id } })
+    if (pageData) {
+      return sendBadRequest(res, message.keyAlreadyInUse)
+    }
+    await pageData.keys.pull(keyData._id)
+    await keyData.delete()
+    await pageData.save()
+    return sendSuccess(res, message.keyDataDeletedSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('DELETE_KEY_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+
+
+
+import { KeyModel } from '../models/keyModels.js'
+import { LanguageModels } from '../models/languageModels.js'
+import { PageModels } from '../models/pageModels.js'
+import logger from '../utilities/logger.js'
+import message from '../utilities/messages/message.js'
+import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
+
+// use for create language key
+export const createLanguageKey = async (req, res) => {
+  try {
+    const data = req.body
+    const regex = /^[A-Z_ ]+$/
+    if (!regex.test(data.key)) {
+      return sendBadRequest(res, message.enterNameAccordingToFormate)
+    }
+    const pageData = await PageModels.findOne({ _id: req.params.pageId })
+
+    if (!pageData) return sendBadRequest(res, message.pageDataNotFound)
+
+    if (pageData.status === false) return sendBadRequest(res, message.pageIsNotLongerExist)
+
+    for (let i = 0; i < pageData.keys.length; i++) {
+      const keyData = await KeyModel.findOne({ _id: pageData.keys[i] })
+      if (!keyData) {
+        await pageData.keys.pull(pageData.keys[i])
+        return
+      }
+      if (keyData.key === data.key) {
+        return sendBadRequest(res, message.keyDataAlreadyExist)
+      }
+    }
+    const arrayData = []
+    if (!data.language.length > 0) return sendBadRequest(res, message.languageIdAndValueIsRequired)
+    for (let i = 0; i < data.language.length; i++) {
+      if (!req.website.languages.includes(data.language[i].lg)) {
+        return sendBadRequest(res, message.enterValidLanguageId)
+      }
+      const languageData = await LanguageModels.findOne({ _id: data.language[i].lg })
+      if (!languageData) {
+        return sendBadRequest(res, message.languageDataNotFound)
+      }
+
+      if (languageData.status === true) {
+        arrayData.push({ lg: languageData._id, value: data.language[i].value })
+      }
+    }
+    const createKey = await new KeyModel({
+      key: data.key,
+      language: arrayData,
+      page_id: pageData._id
+    })
+    pageData.keys.push(createKey._id)
+
+    await createKey.save()
+    await pageData.save()
+    return sendSuccess(res, createKey, message.keyCreatedSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('CREATE_KEY')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for get all key according to page
+export const getAllKeyData = async (req, res) => {
+  try {
+    const options = {}
+    options.page_id = { $in: req.website.pages }
+    if (req.query.status) {
+      options.status = req.query.status
+    }
+    const languageData = await KeyModel.distinct('key')
+    if (!languageData) {
+      return sendBadRequest(res, message.languageDataNotFound)
+    }
+    return sendSuccess(res, languageData, message.languageDataGetSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('GET_WEBSITE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for get all key according to page particlular page id
+export const getAllKeyDataByPageId = async (req, res) => {
+  try {
+    const options = {}
+    options.page_id = req.params.pageId
+    if (req.query.status) {
+      options.status = req.query.status
+    }
+
+    const keyData = await KeyModel.find(options).sort({ createdAt: -1 })
+    if (!keyData) {
+      return sendBadRequest(res, message.keyDataNotFound)
+    }
+    return sendSuccess(res, keyData, message.keyDataGetSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('GET_WEBSITE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for get key by keyid
+export const getKeyDataByKeyId = async (req, res) => {
+  try {
+    const keyData = await KeyModel.findOne({ _id: req.params.keyId })
+    if (!keyData) {
+      return sendBadRequest(res, message.keyDataNotFound)
+    }
+    if (!req.website.pages.includes(keyData.page_id)) {
+      return sendBadRequest(res, message.enterValidKeyId)
+    }
+
+    return sendSuccess(res, keyData, message.keyDataGetSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('GET_WEBSITE_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for update key data
+export const updateKeyData = async (req, res) => {
+  try {
+    const data = req.body
+    const keyData = await KeyModel.findOne({ _id: req.params.keyId })
+    if (!keyData) {
+      return sendBadRequest(res, message.keyDataNotFound)
+    }
+
+    if (!req.website.pages.includes(keyData.page_id)) {
+      return sendBadRequest(res, message.pageDataNotFound)
+    }
+
+    if (data.key) {
+      const regex = /^[A-Z_ ]+$/
+      if (!regex.test(data.key)) {
+        return sendBadRequest(res, message.enterNameAccordingToFormate)
+      }
+      keyData.key = data.key
+    }
+
+    if (data.language) {
+      if (!data.language.length > 0) return sendBadRequest(res, message.languageDataNotFound)
+      for (let i = 0; i < data.language.length; i++) {
+        if (!req.website.languages.includes(data.language[i].lg)) {
+          return sendBadRequest(res, message.enterValidLanguageId)
+        }
+        const languageData = await LanguageModels.findOne({ _id: data.language[i].lg })
+        if (!languageData) {
+          return sendBadRequest(res, message.languageDataNotFound)
+        }
+        for (let i = 0; i < keyData.language.length; i++) {
+          if (!keyData.language[i].lg.equals(languageData._id)) return sendBadRequest(res, message.languageDataNotFound)
+        }
+        if (languageData && languageData.status === true) {
+          for (let k = 0; k < keyData.language.length; k++) {
+            if (languageData._id.equals(keyData.language[k].lg)) {
+              keyData.language[k].value = data.language[i].value
+            }
+          }
+        }
+      }
+    }
+
+    if (data.oldpageid && data.newpageid) {
+      const oldPageData = await PageModels.findOne({ _id: data.oldpageid })
+      if (!oldPageData) {
+        return sendBadRequest(res, message.oldPageDataNotFound)
+      }
+      if (!oldPageData.keys.includes(keyData._id)) {
+        return sendBadRequest(res, message.enterValidPageId)
+      }
+      const newPageData = await PageModels.findOne({ _id: data.newpageid })
+      if (!newPageData) {
+        return sendBadRequest(res, message.newPageDataNotFound)
+      }
+      keyData.page_id = newPageData._id
+      await oldPageData.keys.pull(keyData._id)
+      await newPageData.keys.push(keyData._id)
+      await oldPageData.save()
+      await newPageData.save()
+    }
+
+    await keyData.save()
+    return sendSuccess(res, keyData, message.keyDataUpdatedSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('UPDATE_KEY_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}
+
+// use for delete key data
+export const deleteKeyData = async (req, res) => {
+  try {
+    const keyData = await KeyModel.findOne({ _id: req.params.keyId })
+    if (!keyData) {
+      return sendBadRequest(res, message.keyDataNotFound)
+    }
+
+    if (!req.website.pages.includes(keyData.page_id)) {
+      return sendBadRequest(res, message.pageDataNotFound)
+    }
+
+    const pageData = await PageModels.findOne({ keys: { $in: keyData._id } })
+    if (pageData) {
+      return sendBadRequest(res, message.keyAlreadyInUse)
+    }
+    await pageData.keys.pull(keyData._id)
+    await keyData.delete()
+    await pageData.save()
+    return sendSuccess(res, message.keyDataDeletedSuccessfully)
+  } catch (e) {
+    logger.error(e)
+    logger.error('DELETE_KEY_DATA')
+    return sendBadRequest(res, message.somethingGoneWrong)
+  }
+}

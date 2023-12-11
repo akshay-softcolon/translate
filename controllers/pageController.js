@@ -1,6 +1,5 @@
-import { KeyModel } from '../models/keyModels.js'
 import { PageModels } from '../models/pageModels.js'
-import { WebsiteModels } from '../models/websiteModels.js'
+import { ProjectModel } from '../models/projectModels.js'
 import logger from '../utilities/logger.js'
 import message from '../utilities/messages/message.js'
 import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
@@ -9,28 +8,24 @@ import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
 export const createPage = async (req, res) => {
   try {
     const data = req.body
-    const websiteData = await WebsiteModels.findOne({ _id: req.website?._id })
-    if (!websiteData) {
-      return sendBadRequest(res, message.websiteDataNotFound)
-    }
-    const pageData = await PageModels.findOne({ name: data.name.toLowerCase(), website_id: websiteData._id })
-    if (pageData) {
-      return sendBadRequest(res, message.pageDataAlReadyExist)
-    }
-    // for (let i = 0; i < websiteData.pages.length; i++) {
-    //     const existPageName = await PageModels.findOne({ _id: websiteData.pages[i] }).select({ name: 1 })
-    //     if (existPageName.name.toLowerCase() === data.name.toLowerCase()) {
-    //         return sendBadRequest(res, message.pageDataAlReadyExist)
-    //     }
-    // }
+    const projectData = await ProjectModel.findOne({ _id: req.params.projectId })
+    if (!projectData) return sendBadRequest(res, message.projectDataNotFound)
 
+    // if (!(projectData.admins.includes(req.user._id))) return sendBadRequest(res, message.youAreNotAdmin)
+
+    if (projectData.pages.length > 0) {
+      for (let i = 0; i < projectData.pages.length; i++) {
+        const project = await PageModels.findOne({ _id: projectData.pages[i] })
+        if (!project) return sendBadRequest(res, message.pageDataNotFound)
+        if (project.name === data.name.toLowerCase()) return sendBadRequest(res, message.pageDataAlReadyExist)
+      }
+    }
     const addPage = await new PageModels({
-      name: data.name.toLowerCase(),
-      website_id: websiteData._id
+      name: data.name.toLowerCase()
     })
-    websiteData.pages.push(addPage._id)
+    projectData.pages.push(addPage._id)
     await addPage.save()
-    await websiteData.save()
+    await projectData.save()
     return sendSuccess(res, addPage, message.pageCreatedSuccessfully)
   } catch (e) {
     logger.error(e)
@@ -39,42 +34,19 @@ export const createPage = async (req, res) => {
   }
 }
 
-// use for get all page data
-export const getAllPageData = async (req, res) => {
-  try {
-    const option = {}
-    option.website_id = req.website._id
-    if (req.query.status) {
-      option.status = req.query.status
-    }
-    if (req.query.name) {
-      option.name = { $resges: req.query.name, $option: 'i' }
-    }
-    const pageData = await PageModels.find(option).populate('website_id', 'name').sort({ createdAt: -1 })
-    if (!pageData) {
-      return sendBadRequest(res, message.pageDataNotFound)
-    }
-    return sendSuccess(res, pageData, message.pageDataGetSuccessfully)
-  } catch (e) {
-    logger.error(e)
-    logger.error('GET_ALL_PAGE_DATA')
-    return sendBadRequest(res, message.somethingGoneWrong)
-  }
-}
-
 // use for get page name list
 export const getPageNameList = async (req, res) => {
   try {
+    const projectData = await ProjectModel.findOne({ $or: [{ members: { $in: req.user._id } }, { admins: { $in: req.user._id } }], _id: req.params.projectId })
+    if (!projectData) return sendBadRequest(res, message.projectDataNotFound)
     const option = {}
     option.status = true
-    option.website_id = req.website._id
+    option._id = req.params.projectId
     if (req.query.status) {
       option.status = req.query.status
     }
-    const pageData = await PageModels.find(option).select({ name: 1 }).sort({ createdAt: -1 })
-    if (!pageData) {
-      return sendBadRequest(res, message.pageDataNotFound)
-    }
+    const pageData = await ProjectModel.findOne(option).populate('pages', 'name _id').select({ pages: 1 }).sort({ createdAt: -1 })
+
     return sendSuccess(res, pageData, message.pageDataGetSuccessfully)
   } catch (e) {
     logger.error(e)
@@ -83,46 +55,25 @@ export const getPageNameList = async (req, res) => {
   }
 }
 
-// use for get particular page data
-export const getPageData = async (req, res) => {
-  try {
-    const pageData = await PageModels.findOne({ _id: req.params.pageId }).sort({ createdAt: -1 })
-    if (!pageData) {
-      return sendBadRequest(res, message.pageDataNotFound)
-    }
-    return sendSuccess(res, pageData, message.pageDataGetSuccessfully)
-  } catch (e) {
-    logger.error(e)
-    logger.error('GET_PAGE_DATA')
-    return sendBadRequest(res, message.somethingGoneWrong)
-  }
-}
-
 // use for update page data
 export const updatePageData = async (req, res) => {
   try {
     const data = req.body
+
+    const projectData = await ProjectModel.findOne({ _id: req.params.projectId })
+    if (!projectData) return sendBadRequest(res, message.youAreNotAdmin)
+
     const pageData = await PageModels.findOne({ _id: req.params.pageId })
-    if (!pageData) {
-      return sendBadRequest(res, message.pageDataNotFound)
-    }
-    const websiteData = await WebsiteModels.findOne({ pages: { $in: pageData._id } })
+    if (!pageData) return sendBadRequest(res, message.pageDataNotFound)
+
+    if (!(projectData.pages.includes(pageData._id))) return sendBadRequest(res, message.enterValidPageId)
+
     if (data.name) {
-      const existPageData = await PageModels.findOne({ name: data.name.toLowerCase(), website_id: websiteData._id })
-      if (existPageData) {
-        return sendBadRequest(res, message.pageDataAlReadyExist)
+      for (const i of projectData.pages) {
+        const existPageData = await PageModels.findOne({ name: data.name.toLowerCase(), _id: i })
+        if (existPageData) return sendBadRequest(res, message.pageDataAlReadyExist)
       }
       pageData.name = data.name.toLowerCase()
-    }
-    if (Object.keys(data).includes('status')) {
-      if (data.status !== pageData.status) {
-        for (let i = 0; i < pageData.keys.length; i++) {
-          const keyData = await KeyModel.findOne({ _id: pageData.keys[i] })
-          if (keyData) keyData.status = data.status
-          keyData.save()
-        }
-      }
-      pageData.status = data.status
     }
     await pageData.save()
     return sendSuccess(res, pageData, message.pageDataUpdatedSuccessfully)
@@ -140,12 +91,16 @@ export const deletePageData = async (req, res) => {
     if (!pageData) {
       return sendBadRequest(res, message.pageDataNotFound)
     }
-    if (pageData.keys.length > 0) {
-      return sendBadRequest(res, message.pageIsInUse)
-    }
-    await req.website.pages.pull(pageData._id)
-    await req.website.save()
+
+    const projectData = await ProjectModel.findOne({ _id: req.params.projectId })
+    if (!projectData) return sendBadRequest(res, message.projectDataNotFound)
+
+    if (!(projectData.pages.includes(pageData._id))) return sendBadRequest(res, message.enterValidProjectId)
+    // if (!(projectData.admins.includes(req.user._id))) return sendBadRequest(res, message.youAreNotAdmin)
+
+    await projectData.pages.pull(pageData._id)
     await pageData.delete()
+    await projectData.save()
     return sendSuccess(res, message.pageDataDeletedSuccessfully)
   } catch (e) {
     logger.error(e)

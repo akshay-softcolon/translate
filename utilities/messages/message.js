@@ -1,8 +1,24 @@
 export default {
 
-  // auth
+  // admin auth
+  youAreNotAdmin: 'you are not admin!',
+
+  // user_auth
+  enterValidUserId: 'enter valid user id!',
+  userIdIsRequired: 'user id must be required!',
+  userNameMustBeRequired: 'username must be required!',
+  passwordMustBeRequired: 'password must be required!',
+  emailMustBeRequired: 'email must be required!',
+  passwordFormatIsNotValid: "'Please enter a password at least 8 character and contain At least one uppercase.At least one lower case.At least one special character!",
+  userAlreadyExist: 'user already exist!',
+  accountCreatedSuccessfully: 'account created successfully!',
+  userNotFound: 'user not found!',
+  invalidPassword: 'invalid password!',
+  accessTokenMustBeRequired: 'access token must be required!',
   loginSuccessfully: 'login successfully!',
   nameRequired: 'website must be required!',
+  userDataGetSuccessfully: 'user data get successfully!',
+  enterValidRole: 'enter valid role!',
 
   // common
   somethingGoneWrong: 'something went wrong!',
@@ -44,7 +60,7 @@ export default {
   languageDataNotFound: 'language data not found!',
   languageDataGetSuccessfully: 'language data get successfully!',
   languageDataAlreadyDeleted: 'language data already deleted!',
-  languageDataDeletedSuucessfully: 'language data deleted successfully!',
+  languageDataDeletedSuccessfully: 'language data deleted successfully!',
   languageDataIsDeleted: 'language data is deleted!',
   languageDataAlreadyExist: 'language data is already exist!',
   languageDataUpdatedSuccessfully: 'language data updated successfully!',
@@ -52,15 +68,48 @@ export default {
   languageNotExist: 'language data not exist!',
   enterValidLanguageId: 'enter valid language id!',
   languageDataAlreadyInUse: 'language data already in use!',
+  languageDataIsDepricated: 'language data is depricated!',
+  languageIdAndValueIsRequired: 'language id and value must be required!',
+  languageCodeMustBeUnique: 'language code must be unique!',
   // key related
   keyRequired: 'key must be required!',
   keyCreatedSuccessfully: 'key created successfully!',
   keyDataNotFound: 'key data not found!',
   keyDataGetSuccessfully: 'key data get successfully!',
+  keyGetSuccessfully: 'key get successfully!',
   keyDataUpdatedSuccessfully: 'key data updated successfully!',
   keyDataAlreadyExist: 'key data already exist!',
   keyDataDeletedSuccessfully: 'key data deleted successfully!',
   keyIdRequired: 'key id must be required!',
   enterValidKeyId: 'enter valid key id!',
-  enterNameAccordingToFormate: 'Please enter a valid name in the format UPPERCASE_UPPERCASE'
+  enterNameAccordingToFormate: 'Please enter a valid name in the format UPPERCASE_UPPERCASE',
+  keyAlreadyInUse: 'key data already in use!',
+  keyIsRequired: 'key is required!',
+  detailIsRequired: 'detail is required!',
+
+  // project
+  projectCreatedSuccessfully: 'project created successfully!',
+  projectAlreadyExist: 'project already exist!',
+  projectDataNotFound: 'project data not found!',
+  projectDataUpdatedSuccessfully: 'project data updated successfully!',
+  projectDataGetSuccessfully: 'project data get successfully!',
+  projectReferedSuccessfully: 'project refered successfully!',
+  projectDataDeletedSuccessfully: 'project data deleted successfully!',
+  userAlreadyRefered: 'user already refered!',
+  youCanNotReferdYourParent: 'you can not referd your parent!',
+  youCanNotCreateProject: 'you can not create project!',
+  projectIdIsRequired: 'project id must be reuired!',
+  enterValidProjectId: 'enter valid project id!',
+  roleIsRequired: 'role must be required!',
+  youCanNotUpdateProject: 'you can not update project!',
+  youCanNotReferdOtherUser: 'you can not referd other user!',
+  userIsAlreadyReferd: 'user is already referd!',
+  youCanNotRemoveProject: 'you can not remove project!',
+  youCanNotModifyYourSelf: 'you can not modify yourself!',
+  enterValidAdminId: 'enter valid admin id!',
+  enterValidMemberId: 'enter valid member id!',
+  projectIsAlreadyInUse: 'project is already in use!',
+  enterValidEmailId: 'enter valid email id!',
+  memberAndAdminDataGetSuccessfully: 'member and admin data get successfully!',
+  roleGetSuccessfully: 'role get successfully!'
 }

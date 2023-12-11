@@ -12,6 +12,9 @@ const keySchema = new Schema({
       },
       value: {
         type: String
+      },
+      code: {
+        type: String
       }
     }
   ],
@@ -19,9 +22,13 @@ const keySchema = new Schema({
     type: Boolean,
     default: true
   },
+
   page_id: {
     type: mongoose.Schema.ObjectId,
     ref: 'pages'
+  },
+  detail: {
+    type: String
   }
 
 },

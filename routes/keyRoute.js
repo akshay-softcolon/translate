@@ -1,53 +1,75 @@
 import express from 'express'
-import { createLanguageKey, deleteKeyData, getAllKeyData, getAllKeyDataByPageId, updateKeyData } from '../controllers/keyController.js'
+import { createLanguageKey, deleteKeyData, getAllKeyDataByPageId, updateKeyData } from '../controllers/keyController.js'
 import message from '../utilities/messages/message.js'
 import { validationfield } from '../field_valodator/index.js'
-import { param } from 'express-validator'
-import { tokenVerify } from '../middleware/isWebsite.js'
+import { check, param } from 'express-validator'
 import mongoose from 'mongoose'
+import { isUser } from '../middleware/user_validator/validator.js'
+import { isAdmin } from '../middleware/admin_validator/validator.js'
 const router = express.Router()
 
 // use for create language key
-router.post('/create/:pageId', [param('pageId').exists().withMessage(message?.pageIdRequired).custom((value) => {
+router.post('/create/:projectId/:pageId', [param('projectId').exists().withMessage(message?.projectIdIsRequired).custom((value) => {
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    throw new Error(message.enterValidProjectId)
+  }
+  return true
+}), param('pageId').exists().withMessage(message?.pageIdRequired).custom((value) => {
   if (!mongoose.Types.ObjectId.isValid(value)) {
     throw new Error(message.enterValidPageId)
   }
   return true
-})
-], validationfield, tokenVerify, createLanguageKey)
+}), check('detail').exists().withMessage(message?.detailIsRequired), check('key').exists().withMessage(message?.keyIsRequired)
 
-// use for get all key data
-router.get('/data', tokenVerify, getAllKeyData)
+], validationfield, isAdmin, createLanguageKey)
 
-// use for get key data of particular language
-// router.get("/:languageid", [param('languageid').notEmpty().withMessage(message?.languageIdRequired)], validationfield, tokenVerify, getKeyData)
-
-// use for get key data by keyid
-// router.get("/data/:keyid", [param('keyid').notEmpty().withMessage(message?.keyIdRequired)], validationfield, tokenVerify, getKeyDataByKeyId)
-
-// use for get key data by keyid
-
-router.get('/data/:pageId', [param('pageId').exists().withMessage(message?.pageIdRequired).custom((value) => {
+// use for get key data by pageid
+router.get('/:projectId/:pageId', [param('projectId').exists().withMessage(message?.projectIdIsRequired).custom((value) => {
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    throw new Error(message.enterValidProjectId)
+  }
+  return true
+}), param('pageId').exists().withMessage(message?.pageIdRequired).custom((value) => {
   if (!mongoose.Types.ObjectId.isValid(value)) {
     throw new Error(message.enterValidPageId)
   }
   return true
-})], validationfield, tokenVerify, getAllKeyDataByPageId)
+})], validationfield, isUser, getAllKeyDataByPageId)
 
 // use for get key data by keyid
-router.put('/update/:keyId', [param('keyId').exists().withMessage(message?.keyIdRequired).custom((value) => {
+router.put('/update/:projectId/:pageId/:keyId', [param('projectId').exists().withMessage(message?.projectIdIsRequired).custom((value) => {
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    throw new Error(message.enterValidProjectId)
+  }
+  return true
+}), param('pageId').exists().withMessage(message?.pageIdRequired).custom((value) => {
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    throw new Error(message.enterValidPageId)
+  }
+  return true
+}), param('keyId').exists().withMessage(message?.keyIdRequired).custom((value) => {
   if (!mongoose.Types.ObjectId.isValid(value)) {
     throw new Error(message.enterValidKeyId)
   }
   return true
-})], validationfield, tokenVerify, updateKeyData)
+})], validationfield, isAdmin, updateKeyData)
 
 // use for delete key data by keyid
-router.delete('/delete/:keyId', [param('keyId').exists().withMessage(message?.keyIdRequired).custom((value) => {
+router.delete('/delete/:projectId/:pageId/:keyId', [param('projectId').exists().withMessage(message?.projectIdIsRequired).custom((value) => {
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    throw new Error(message.enterValidProjectId)
+  }
+  return true
+}), param('pageId').exists().withMessage(message?.pageIdRequired).custom((value) => {
+  if (!mongoose.Types.ObjectId.isValid(value)) {
+    throw new Error(message.enterValidPageId)
+  }
+  return true
+}), param('keyId').exists().withMessage(message?.keyIdRequired).custom((value) => {
   if (!mongoose.Types.ObjectId.isValid(value)) {
     throw new Error(message.enterValidKeyId)
   }
   return true
-})], validationfield, tokenVerify, deleteKeyData)
+})], validationfield, isAdmin, deleteKeyData)
 
 export default router

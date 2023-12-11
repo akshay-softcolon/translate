@@ -11,10 +11,6 @@ const pageSchema = new Schema({
   status: {
     type: Boolean,
     default: true
-  },
-  website_id: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'websites'
   }
 
 },
