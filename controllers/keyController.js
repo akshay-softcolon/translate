@@ -97,6 +97,8 @@ export const getAllKeyDataByPageId = async (req, res) => {
 // use for update key data
 export const updateKeyData = async (req, res) => {
   try {
+    console.log(req.body)
+    console.log(req.params)
     const projectData = await ProjectModel.findOne({ _id: req.params.projectId })
 
     if (!(projectData.pages.includes(req.params.pageId))) return sendBadRequest(res, message.enterValidPageId)

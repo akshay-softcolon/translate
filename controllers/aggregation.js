@@ -5,10 +5,11 @@ import { sendBadRequest, sendSuccess } from '../utilities/response/index.js'
 import { KeyModel } from '../models/keyModels.js'
 import mongoose from 'mongoose'
 import { MongoClient } from 'mongodb'
+import { UserModel } from '../models/userModels.js'
 
 // Connection URI
 const uri = 'mongodb://localhost:27017'
-const dbName = 'your_database_name'
+const dbName = 'transaction'
 export const getWebSiteDataByAggregation = async (req, res) => {
   try {
     const projectData = await ProjectModel.findOne({ _id: req.params.projectId }).populate('pages', 'keys')
@@ -145,45 +146,30 @@ export const getWebSiteDataByAggregations = async (req, res) => {
 // missingNumber(array, n)
 
 // Create a new MongoClient
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
-// Insert data using async/await
+// // // Insert data using async/await
 // const insertData = async () => {
+//   const client = new MongoClient(uri)
+//   // const session = client.startSession()
+
 //   try {
-//     // Connect to the MongoDB server
 //     await client.connect()
+//     // await session.startTransaction()
 
-//     // Select the database
-//     const db = client.db(dbName)
+//     const addPayment = UserModel.create({ username: 'bhavik' })
+//     const addPayment2 = UserModel.create({ username:  })
 
-//     // Specify the collection
-//     const collection = db.collection('user_pay')
-//     // Data to be inserted
-//     const dataToInsert = {
-//       name: 'bhavik',
-//       amount: 200000
-//       // Add more fields as needed
-//     }
-
-//     // Insert the data using insertOne
-//     // const result = await collection.insertOne(dataToInsert)
-
-//     const collection2 = db.collection('user_get_details')
-//     // Data to be inserted
-//     const dataToInsert2 = {
-//       paid_amount: 200000
-//       // Add more fields as needed
-//     }
-//     const result = await collection.insertOne(dataToInsert2)
-
-//     console.log('Data inserted successfully:', result.insertedId)
+//     // await session.commitTransaction()
+//     console.log('Users created successfully')
 //   } catch (error) {
+//     // await session.abortTransaction()
 //     console.error('Error inserting data:', error)
 //   } finally {
-//     // Close the connection
+//     // await session.endSession()
 //     await client.close()
 //   }
 // }
 
-// // Call the insertData function
+// // // Call the insertData function
 // insertData()
